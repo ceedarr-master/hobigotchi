@@ -147,11 +147,11 @@ function App() {
 
   // [말풍선 텍스트]
   const getSpeechText = () => {
-    if (game.evolutionStep === 'ready') return game.lang === 'jp' ? "あれ？ホソクの状態が...？" : "으음으음~ 민망하다규~";
+    if (game.evolutionStep === 'ready') return game.lang === 'jp' ? "あれ？ホソクの状態が...？" : "오메?";
     
     if (game.evolutionStep === 'completed') {
        // [추가] 성인 엔딩 2단계(완료 멘트)에서는 말풍선 숨김
-       if (game.stats.stage === 'adult' && game.endingStep === 2) return "";
+       //if (game.stats.stage === 'adult' && game.endingStep === 2) return "";
 
       const charData = CHARACTER_INFO[game.stats.characterId];
       return (charData?.dialogue?.[game.lang]) || (game.lang === 'jp' ? "感謝して愛しています💜" : "감사하고 사랑합니다💜");

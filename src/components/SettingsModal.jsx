@@ -77,7 +77,7 @@ const SettingsModal = ({ isOpen, onClose, t, lang, onLangChange }) => {
             {renderHeader(safeT('settings'))}
             <div className="flex flex-col gap-4">
               <ButtonL label={safeT('guide')} icon=">" onClick={() => setView('guide')} />
-              <ButtonL label={safeT('lang')} icon="🇰🇷" onClick={() => setView('lang')} />
+              <ButtonL label={safeT('lang')} icon=">" onClick={() => setView('lang')} />
               <ButtonL label={safeT('dev')} icon=">" onClick={() => setView('dev')} />
             </div>
           </>
