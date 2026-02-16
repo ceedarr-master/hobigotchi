@@ -40,16 +40,16 @@
   --font-size-hobi-lg: 19px;
   --font-size-hobi-xl: 29px;
   --font-family-pixel: 'Galmuri11', 'Galmuri', monospace, system-ui;
-  
+  --font-family: 'Galmuri11', 'Galmuri', monospace, system-ui;
   --animate-white-out: white-out 1.2s ease-in-out forwards;
 
 }
 
-@utility text-hobi-xs { font-size: var(--font-size-hobi-xs); }
-@utility text-hobi-sm { font-size: var(--font-size-hobi-sm); }
-@utility text-hobi-base { font-size: var(--font-size-hobi-base); }
-@utility text-hobi-lg { font-size: var(--font-size-hobi-lg); }
-@utility text-hobi-xl { font-size: var(--font-size-hobi-xl); }
+.text-hobi-xs { font-size: var(--font-size-hobi-xs); }
+.text-hobi-sm { font-size: var(--font-size-hobi-sm); }
+.text-hobi-base { font-size: var(--font-size-hobi-base); }
+.text-hobi-lg { font-size: var(--font-size-hobi-lg); }
+.text-hobi-xl { font-size: var(--font-size-hobi-xl); }
 
 @keyframes hobi-bubble-bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
 @keyframes hobi-rotate-slow { 0% { transform: rotate(-5deg); } 50% { transform: rotate(5deg); } 100% { transform: rotate(-5deg); } }

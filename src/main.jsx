@@ -1,3 +1,4 @@
+import 'galmuri/dist/galmuri.css'
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import './index.css'
