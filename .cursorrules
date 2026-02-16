@@ -1,0 +1,247 @@
+# Project: Hobigotchi (호비고치)
+# 프로젝트 역할
+너는 세계 최고의 프론트엔드 개발자이자, 내 디자인을 100% 구현하는 퍼블리셔다.
+우리는 '호비고치'라는 다마고치 웹 게임을 만든다.
+
+
+# 기술 스택 (건드리지 말 것)
+- React, Vite, Tailwind CSS
+
+
+# 🧠 게임 로직 규칙
+- 데이터는 내가 준 CSV 로직을 따른다.
+- 게임 상태(나이, 배고픔 등)는 'localStorage'에 저장해서 새로고침해도 유지되게 한다.
+- 코드는 초보자인 내가 봐도 이해하기 쉽게 주석을 한글로 달아라.
+
+
+# 🎨 디자인 시스템 (MCP Rules)
+## 1. Tech Stack
+- **Framework:** React + Vite
+- **Styling:** Tailwind CSS v4
+- **Language:** JavaScript (ES6+)
+- **Font:** Galmuri11
+
+## 2. Design System (Source of Truth)
+Hobigotchi design guide
+
+Designated result(the source of truth)
+Game start point: egg hatching
+
+Main page
+
+Food menu open
+
+Activity menu open
+
+Evolution (example: from Child to Teen)
+
+
+2. Design guideline
+- Typography
+ - Font family: Galmuri11
+ - Style: 
+  - font_size_xl: 29px
+    Purpose: button_xl
+  - font_size_l: 19px
+    Purpose: button_l
+  - font_size_m: 15px
+    Purpose: bubble
+  - font_size_s: 11px
+    Purpose: label
+
+
+- Color palette and role:
+ Font color(theme): 
+  System: 
+      hobi_white: #ffffff
+      hobi_black: #1b1f4b
+  Orange: 
+      hobi_orange_l: #ffe3b9
+      hobl_orange_d: #ffad5a
+  Pink: 
+    hobi_pink_l: #ffdfda
+    hobi_pink_d: ffa69b
+  Blue:
+    hobi_blue_l: #d3f1f6
+    hobi_blue_d: #78ceef
+  Purple
+    hobi_purple_l: #d7c8f9
+    hobi_purple_d: #aa96da
+  Green
+    hobi_green_l: #E3EEC6
+    hobi_green_d: #c4dd83
+
+
+3. Style
+  Global size: 
+    global_80: 80px
+    global_64: 64px
+    global_40: 40px
+    global_24: 24px
+    global_20: 20px
+    global_16: 16px
+    global_8: 8px
+    global_4: 4px
+  Radius
+    radius_l: 30px: for image frame, bubble
+    radius_m: 20px: for buttons, dialog, popup modal
+    radius_s: 10px: for gallery thumbnail
+  Drop shadow
+    dropshadow_l: 
+      Position: x 0, y 8px
+      Color: match the stroke color
+      blur: 0
+      purpose: dialog, system, popup modal, 
+    dropshadow_s: 
+      Position: x 0, y 4px
+      Color: match the stroke color
+      Blur: 0
+      purpose: bubble, submenu
+  Border
+    border_l:
+      Value: 7px
+      Purpose: image frame
+    border_m:
+      Value: 3px
+      Purpose: all buttons, popup modal
+    border_s:
+      Value: 1px
+      Purpose: stat gauges, bubble
+  Icon size
+    size_r: 
+      Size: global_24
+      Purpose: Default(everything except stat label)
+    size_s: 
+      Size: global_16
+      Purpose: stat label
+
+  system(setting, dialog, bubble, popup modal)
+    Fill: #white
+    Border: #1b1f4b (black)
+
+  Role(action_type): 
+    음식(id: food)
+      Theme: orange
+      Fill: hobi_orange_l
+      Border: hobi_orange_d
+    활동(id: activity)
+      Theme: pink
+      Fill: hobi_pink_l
+      Border: hobi_pink_d
+    씻기(id: wash)
+      Theme: blue
+      Fill: hobi_blue_l
+      Border: hobi_blue_d
+    쉬기(id: rest)
+      Theme: purple
+      Fill: hobi_purple_l
+      Border: hobi_purple_d
+    시스템(id: sys)
+      Theme: sys
+      Fill: hobi_white
+      Border: hobi_black
+
+
+4. Components: 
+  Image frame
+    Id: img_egg: egg shaped frame
+      Border_l(hobi_black)
+      size: 196x240
+      <path d="M98.333 3.5C112.325 3.5 125.278 9.46535 136.618 18.6416C147.951 27.812 157.963 40.4078 166.26 54.3389C182.793 82.0992 193.167 116.287 193.167 141.969C193.167 194.041 150.671 236.188 98.333 236.188C45.9949 236.187 3.5 194.041 3.5 141.969C3.5 116.287 13.8733 82.0991 30.4062 54.3389C38.7031 40.4078 48.7155 27.812 60.0488 18.6416C71.3893 9.46551 84.3416 3.50009 98.333 3.5Z">
+    Id: img_frame
+      Border_l(hobi_black), radius_l
+      size: 228x296
+
+  Buttons: 
+    Rule: Every buttons will have radius_m and two states;hover state, pressed state
+      Hover state: transition x 0, y -2px
+      Pressed state
+        pressed_l: transition x 0, y 8px
+        pressed_s: transition x 0, y 4px
+
+    Button extra large: 버튼 가운데 글씨가 있는 가로로 긴 버튼
+      Id: button_xl
+      Font alignment, y position: center, middle
+      Width: full-width
+      Height: global_l
+      Font_size_xl
+      Theme: sys
+      Border weight: global_4
+      radius_m
+      dropshadow_l
+      pressed_l
+      Purpose: 부화(hatch)나 진화(evolve)장면에서만 사용
+    Button large: 텍스트가 왼쪽, 아이콘이 오른쪽에 붙어있는 가로로 긴 버튼
+      Id: button_l
+      Font alignment, y position: left, middle
+      Icon alignment, y position: right, middle
+      Padding: global_20
+      Width: full-width
+      Height: global_l
+      Font_size_l
+      Icon size: global_16
+      Theme: sys
+      border weight: global_4
+      radius_m
+      dropshadow_l
+      pressed_l
+      Purpose: 세팅을 눌렀을때 뜨는 팝업모달에서만 사용
+    Button medium: 아이콘 아래 label이 있는 정사각형 버튼
+      Id: button_m
+      Icon alignment, y position: center, middle
+      Icon size: global_24
+      Font_size_s
+      Font alignment, y position: center, middle
+      Width, height: global_l
+      Theme: follow each action_type’s assigned color set(e.g.: food-orange, wash-blue)
+      border weight: global_4
+      radius_m
+      dropshadow_l
+      pressed_l
+      Purpose: 메인 페이지 하단의 액션그룹(food, activity, clean, rest)
+    Button small: 텍스트가 왼쪽, 아이콘이 오른쪽에 붙어있는 가로로 긴 버튼.
+      Theme: food를 눌렀을 땐 food의 theme, acitivy를 눌렀을 땐 activity의 theme을 따른다.
+      Id: button_s
+      Padding: global_20
+      Font alignment, y position: left, middle
+      font_size_m
+      Icon alignment, y position: right, middle
+      Icon size: global_24
+      Width, height: global_64
+      border weight: border_m
+      radius_m
+      dropshadow_s
+      pressed_s
+      Purpose: 메인 페이지 하단의 액션그룹(food, activity, clean, rest)의 세부 아이템
+    button extra small: 아이콘 하나만 있는 원형의 버튼. 
+      Id: button_xs
+      Font alignment, y position: left, middle
+      Icon alignment, y position: right, middle
+      Width, height: global_40
+      Icon size: global_24
+      Icon color: hobi_black
+      Fill(theme): green
+      radius_m
+      No dropshadow
+      No state
+      Purpose: top nav의 갤러리 버튼과 세팅 버튼
+
+    Stat frame
+      Fill: hobi_white 
+      Border: hobi_green
+      Border weight: border_m
+      Stats gauge: label과 gauge가 한 줄에 놓여있음
+      label: font_size_s(korean only)
+      English label: replace text to icon(icon size: global_16)
+    Gauge frame: 
+      Border: hobi_black
+      Border weight: border_s
+    Gauge status: 
+      good(100-30): hobi_green_d
+      warning(30-10): hobi_ornage_d
+      bad(10-0): hobi_pink_d
+    Stat group frame
+      Padding: global_20
+      No drop shadow
+      Border color: hobi_green_d
+      Radius: radius_m

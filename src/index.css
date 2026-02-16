@@ -1,0 +1,142 @@
+/* src/index.css */
+@import "tailwindcss";
+@import url('https://cdn.jsdelivr.net/npm/galmuri@1.0.2/dist/Galmuri.css');
+
+/* [수정] .cursorrules와 이름을 일치시켰습니다. */
+@theme {
+  --color-hobi-black: #1b1f4b;
+  --color-hobi-white: #ffffff;
+  --color-hobi-text: #1b1f4b; /* 폰트 색상을 위한 별도 정의 */
+  
+  /* Green 계열 */
+  --color-hobi-green-l: #E3EEC6;
+  --color-hobi-green-d: #c4dd83;
+
+  /* Orange (Food) */
+  --color-hobi-orange-l: #ffe3b9;
+  --color-hobi-orange-d: #ffad5a;
+
+  /* Pink (Activity) */
+  --color-hobi-pink-l: #ffdfda;
+  --color-hobi-pink-d: #ffa69b;
+
+  /* Blue (Wash) */
+  --color-hobi-blue-l: #d3f1f6;
+  --color-hobi-blue-d: #78ceef;
+
+  /* Purple (Rest) */
+  --color-hobi-purple-l: #d7c8f9;
+  --color-hobi-purple-d: #aa96da;
+
+  /* 애니메이션 설정 */
+  --animate-bounce-slow: hobi-bubble-bounce 1.8s ease-in-out infinite;
+  --animate-rotate-slow: hobi-rotate-slow 6s ease-in-out infinite;
+  --animate-evolve-shake: hobi-shake 0.2s ease-in-out infinite;
+  --animate-evolve-flash: hobi-flash 0.5s ease-in-out infinite;
+    /* 폰트 패밀리 */
+  --font-size-hobi-xs: 11px;
+  --font-size-hobi-sm: 13px;
+  --font-size-hobi-base: 15px;
+  --font-size-hobi-lg: 19px;
+  --font-size-hobi-xl: 29px;
+  --font-family-pixel: 'Galmuri11', 'Galmuri', monospace, system-ui;
+  
+  --animate-white-out: white-out 1.2s ease-in-out forwards;
+
+}
+
+@utility text-hobi-xs { font-size: var(--font-size-hobi-xs); }
+@utility text-hobi-sm { font-size: var(--font-size-hobi-sm); }
+@utility text-hobi-base { font-size: var(--font-size-hobi-base); }
+@utility text-hobi-lg { font-size: var(--font-size-hobi-lg); }
+@utility text-hobi-xl { font-size: var(--font-size-hobi-xl); }
+
+@keyframes hobi-bubble-bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
+@keyframes hobi-rotate-slow { 0% { transform: rotate(-5deg); } 50% { transform: rotate(5deg); } 100% { transform: rotate(-5deg); } }
+@keyframes hobi-shake { 0% { transform: translate(0, 0); } 25% { transform: translate(-2px, 2px); } 50% { transform: translate(2px, -2px); } 100% { transform: translate(0, 0); } }
+@keyframes hobi-flash { 0%, 100% { filter: brightness(1); } 50% { filter: brightness(2); } }
+
+@keyframes white-out {
+  0% { opacity: 0; }
+  50% { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+/* 폭죽처럼 퍼지는 파티클 효과 */
+@keyframes particle-explode {
+  0% { transform: translate(0, 0) scale(1); opacity: 1; }
+  100% { transform: translate(var(--tw-translate-x), var(--tw-translate-y)) scale(0); opacity: 0; }
+}
+
+.animate-particle {
+  animation: particle-explode 1.5s ease-out forwards;
+}
+
+@keyframes twinkle {
+  0%, 100% { opacity: 0; transform: scale(0.5); }
+  50% { opacity: 0.8; transform: scale(1.2) rotate(180deg); }
+}
+
+.animate-twinkle {
+  animation: twinkle 2s infinite ease-in-out;
+}
+
+/* src/index.css */
+
+@keyframes particle-complex {
+  0% { 
+    /* 시작 지점 설정 및 투명도 0 */
+    transform: translate(calc(-50% + var(--start-x)), calc(-50% + var(--start-y))) rotate(0deg) scale(0);
+    opacity: 0;
+  }
+  15% { 
+    /* 빠르게 나타나며 커짐 */
+    opacity: 1;
+    transform: translate(calc(-50% + var(--mid-x)), calc(-50% + var(--mid-y))) rotate(calc(var(--rot-end) * 0.15)) scale(1.6);
+  }
+  100% { 
+    /* 사라지며 멀리 날아감 */
+    transform: translate(calc(-50% + var(--end-x)), calc(-50% + var(--end-y))) rotate(var(--rot-end)) scale(0);
+    opacity: 0;
+  }
+}
+
+@keyframes particle-complex {
+  /* 1. 시작 (0%): 작고 투명하게 시작 */
+  0% { 
+    transform: translate(calc(-50% + var(--start-x)), calc(-50% + var(--start-y))) rotate(0deg) scale(0);
+    opacity: 0;
+  }
+
+  /* 2. 등장 (20%): 빠르게 커지면서(1.5배) 완전 선명해짐 */
+  20% { 
+    opacity: 1;
+    transform: translate(calc(-50% + var(--mid-x)), calc(-50% + var(--mid-y))) rotate(calc(var(--rot-end) * 0.2)) scale(1);
+  }
+
+  /* 3. 퇴장 (100%): 크기는 유지하거나 약간 더 키우면서, 투명도만 0으로 사라짐 */
+  100% { 
+    /* scale(1.5)를 유지하면 크기가 큰 상태로 투명해지고, 
+       scale(0)으로 하면 작아지면서 투명해집니다. */
+    transform: translate(calc(-50% + var(--end-x)), calc(-50% + var(--end-y))) rotate(var(--rot-end)) scale(0.9);
+    opacity: 0;
+  }
+}
+
+.animate-particle-enhanced {
+  /* backwards: 애니메이션 대기 시간(delay) 동안 0%의 스타일을 유지함 */
+  animation: particle-complex var(--duration) cubic-bezier(0.16, 1, 0.3, 1) backwards;
+}
+
+body { font-family: var(--font-family-pixel); color: var(--color-hobi-black); margin: 0; }
+
+/* 크롬, 사파리, 엣지용 스크롤바 숨김 */
+.scrollbar-hide::-webkit-scrollbar {
+    display: none;
+}
+
+/* 파이어폭스, IE용 스크롤바 숨김 */
+.scrollbar-hide {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+}
