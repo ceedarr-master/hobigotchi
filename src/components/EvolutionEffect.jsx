@@ -6,12 +6,14 @@ const EvolutionEffect = ({ stage, theme = 'blue' }) => {
 
   // [수정] 성인 테마('final')일 때 사용할 도형 리스트 확장
   // 일반 테마는 기존 shapes 사용
-  const basicShapes = ['ellipse', 'rectangle', 'star4', 'star5'];
+  const basicShapes = ['ellipse', 'rectangle', 'star', 'diamond'];
   
   // 성인 테마용 도형 리스트 (파일명 규칙: final_도형_번호.svg 또는 final_도형.svg)
   const finalShapes = [
     'star_1', 'star_2', 'star_3', 'star_4', 
-    'ellipse', 'diamond', 'rectangle'
+    'ellipse_1', 'ellipse_2', 'ellipse_3', 'ellipse_4',
+    'diamond_1', 'diamond_2', 'diamond_3', 'diamond_4',
+    'rectangle_1', 'rectangle_2', 'rectangle_3', 'rectangle_4'
   ];
 
   useEffect(() => {
@@ -34,13 +36,13 @@ const EvolutionEffect = ({ stage, theme = 'blue' }) => {
           shapeName = basicShapes[Math.floor(Math.random() * basicShapes.length)];
         }
 
-        const size = Math.random() * 20 + 15; // 크기 범위 (15px ~ 35px)
+        const size = Math.random() * 20 + 20; // 크기 범위 (15px ~ 35px)
         const angle = Math.random() * Math.PI * 2; // 터지는 방향 (360도)
-        const startDist = Math.random() * 0 + 100; // startDist: 중앙에서 얼마나 떨어진 곳에서 나타날 것인가
-        const endDist = startDist + (Math.random() * 120 + 180); // endDist: 최종적으로 날아가는 거리 (값이 커질수록 속도가 빨라 보임)
+        const startDist = Math.random() * 40 + 140; // startDist: 중앙에서 얼마나 떨어진 곳에서 나타날 것인가
+        const endDist = startDist + (Math.random() * 100 + 150); // endDist: 최종적으로 날아가는 거리 (값이 커질수록 속도가 빨라 보임)
         // [수정 포인트 4: 속도감]
         // duration이 짧을수록 '팍!' 하고 빠르게 터지고, 길수록 '스르륵' 퍼집니다.
-        const duration = Math.random() * 0.3 + 1.5; // 초 단위 숫자
+        const duration = Math.random() * 0.8 + 1.2; // 초 단위 숫자
 
         return {
           id: i,
@@ -55,7 +57,7 @@ const EvolutionEffect = ({ stage, theme = 'blue' }) => {
           rotEnd: Math.random() * 360 - 180,
           duration: `${duration}s`,
           // delay: 파티클이 순차적으로 터지는 느낌을 줌 (0.3을 키우면 더 오래 터짐)
-          delay: Math.random() * 0.3
+          delay: Math.random() * 0.2
         };
       });
       setParticles(newParticles);
