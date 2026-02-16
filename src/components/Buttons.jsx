@@ -2,12 +2,12 @@ import React from 'react';
 
 const baseStyle = "transition-all duration-100 font-pixel flex items-center shrink-0 cursor-pointer select-none";
 
-// 1. Button XL (변경 없음)
+// 1. Button XL 
 export const ButtonXL = ({ children, onClick, theme = "sys", disabled }) => (
   <button 
     onClick={onClick}
     disabled={disabled}
-    className={`${baseStyle} w-full h-20 text-hobi-xl font-bold justify-center border-[4px] rounded-[20px] 
+    className={`${baseStyle} w-full h-20 text-hobi-xl font-bold justify-center border-[3px] rounded-[20px] 
     ${theme === 'sys' ? 'bg-white border-hobi-black shadow-[0_8px_0_0_#1b1f4b]' : ''}
     ${disabled 
       ? 'opacity-50 cursor-not-allowed shadow-none translate-y-[4px]' 
@@ -23,7 +23,7 @@ export const ButtonL = ({ label, icon, onClick }) => (
   <button 
     onClick={onClick}
     className="transition-all duration-100 font-pixel flex items-center shrink-0 cursor-pointer select-none
-    w-full h-20 px-5 justify-between border-[4px] border-hobi-black rounded-[20px] bg-white shadow-[0_8px_0_0_#1b1f4b] text-hobi-lg 
+    w-full h-20 px-5 justify-between border-[3px] border-hobi-black rounded-[20px] bg-white shadow-[0_8px_0_0_#1b1f4b] text-hobi-lg 
     hover:-translate-y-[2px] active:translate-y-[4px] active:shadow-none"
   >
     <span className="font-bold">{label}</span>
@@ -42,7 +42,7 @@ export const ButtonL = ({ label, icon, onClick }) => (
 export const ButtonM = ({ label, icon, theme, onClick, isActive }) => (
   <button 
     onClick={onClick}
-    className={`${baseStyle} w-20 h-20 flex-col gap-1 justify-center border-[4px] rounded-[20px]
+    className={`${baseStyle} w-20 h-20 flex-col gap-1 justify-center border-[3px] rounded-[20px]
     ${theme.border} 
     ${isActive 
         ? `${theme.bgPressed} translate-y-[8px] shadow-none` // [수정] bgPressed 적용

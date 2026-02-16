@@ -73,8 +73,8 @@ const CharacterFrame = ({ characterId, isEgg, isShaking, isEvolution, turn }) =>
 
   // [수정] 조건문 제거: 무조건 {이름}_{번호}.png 형식을 따릅니다.
   const imagePath = isEgg 
-    ? "/assets/images/photos/egg_1.png" 
-    : `/assets/images/photos/${characterId}_${imgVar}.png`;
+    ? "/assets/images/photos/egg_1.webp" 
+    : `/assets/images/photos/${characterId}_${imgVar}.webp`;
 
   /* [디버깅] 개발자 도구(F12) > Console 창에서 이 로그를 확인해보세요.
      만약 404 에러가 뜬다면, 이 경로에 실제 파일이 있는지 확인해야 합니다. */
@@ -100,7 +100,7 @@ const CharacterFrame = ({ characterId, isEgg, isShaking, isEvolution, turn }) =>
         </div>
       ) : (
         <div className={`
-          w-[228px] h-[296px] bg-white border-[7px] border-hobi-black rounded-[30px] 
+          w-[200px] h-[260px] bg-white border-[7px] border-hobi-black rounded-[30px] 
           overflow-hidden flex items-center justify-center transition-all duration-300
           ${isEvolution ? 'brightness-0 invert animate-evolve-flash' : ''}
         `}>

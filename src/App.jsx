@@ -1,7 +1,8 @@
 import React from 'react';
-import { useGameLogic } from './hooks/useGameLogic';
-
 // 컴포넌트들
+import useGameLoader from './hooks/useGameLoader';
+import useGameLogic from './hooks/useGameLogic';
+import LoadingModal from './components/LoadingModal'; // [추가] 새로 만든 컴포넌트 import
 import SettingsModal from './components/SettingsModal';
 import GalleryModal from './components/GalleryModal';
 import DeveloperMode from './components/DeveloperMode';
@@ -32,11 +33,69 @@ const getCharName = (id, lang) => {
   return (info && info.name && (info.name[lang] || info.name['ko'])) || id;
 };
 
+const preloadSrcList = [
+  // 파티클
+  '/assets/particles/blue_diamond.svg',
+  '/assets/particles/blue_ellipse.svg',
+  '/assets/particles/blue_rectangle.svg',
+  '/assets/particles/blue_star.svg',
+  '/assets/particles/pink_diamond.svg',
+  '/assets/particles/pink_ellipse.svg',
+  '/assets/particles/pink_rectangle.svg',
+  '/assets/particles/pink_star.svg',
+  '/assets/particles/purple_diamond.svg',
+  '/assets/particles/purple_ellipse.svg',
+  '/assets/particles/purple_rectangle.svg',
+  '/assets/particles/purple_star.svg',
+  '/assets/particles/final_diamond_1.svg',
+  '/assets/particles/final_diamond_2.svg',
+  '/assets/particles/final_diamond_3.svg',
+  '/assets/particles/final_diamond_4.svg',
+  '/assets/particles/final_ellipse_1.svg',
+  '/assets/particles/final_ellipse_2.svg',
+  '/assets/particles/final_ellipse_3.svg',
+  '/assets/particles/final_ellipse_4.svg',
+  '/assets/particles/final_rectangle_1.svg',
+  '/assets/particles/final_rectangle_2.svg',
+  '/assets/particles/final_rectangle_3.svg',
+  '/assets/particles/final_rectangle_4.svg',
+  '/assets/particles/final_star_1.svg',
+  '/assets/particles/final_star_2.svg',
+  '/assets/particles/final_star_3.svg',
+  '/assets/particles/final_star_4.svg',
+  // 아이콘
+  '/assets/icons/cupcake.svg',
+  '/assets/icons/cookie.svg',
+  '/assets/icons/food.svg',
+  '/assets/icons/chat-dots.svg',
+  '/assets/icons/book-open.svg',
+  '/assets/icons/workout.svg',
+  '/assets/icons/puzzle.svg',
+  // 배경 이미지
+  '/assets/images/bg_img/ev_blue_completed.svg',
+  '/assets/images/bg_img/ev_blue_processing.svg',
+  '/assets/images/bg_img/ev_final_completed.svg',
+  '/assets/images/bg_img/ev_final_processing.svg',
+  '/assets/images/bg_img/ev_pink_completed.svg',
+  '/assets/images/bg_img/ev_pink_processing.svg',
+  '/assets/images/bg_img/ev_purple_completed.svg',
+  '/assets/images/bg_img/ev_purple_processing.svg',
+  '/assets/images/bg_img/main.svg',
+];
+
 function App() {
+  // 1. 게임 로딩 및 데이터 경고 처리
+  const { isLoaded, progress } = useGameLoader(preloadSrcList);
+  
+  // 2. 게임 로직 훅
   const game = useGameLogic();
   const t = (key) => (UI_TEXT[game.lang] && UI_TEXT[game.lang][key]) || UI_TEXT['ko'][key] || key;
+  // [수정] 로딩이 안 끝났으면 -> 심플한 로딩 화면 보여주기
+  if (!isLoaded) {
+    return <LoadingModal progress={progress} />;
+  }
 
-  // [테마 결정 로직 수정]
+  // [테마 결정 로직]
   const getEvolutionTheme = () => {
     // 1. 알 발견 ~ 부화 과정 (Blue)
     if (game.hatchStep !== 'complete') return EVOLUTION_THEMES.evolution_1;
@@ -174,12 +233,13 @@ function App() {
         
         <SettingsModal isOpen={game.showSettings} onClose={() => game.setShowSettings(false)} t={t} lang={game.lang} onLangChange={game.setLang} />
         <GalleryModal 
-  isOpen={game.showGallery} 
-  onClose={() => game.setShowGallery(false)} 
-  collection={game.collection} 
-  lang={game.lang}   // <--- 이거 꼭 추가! (이름 표시용)
-  t={t} 
-/>        <UnlockModal isOpen={game.evolutionStep === 'modal'} onClose={game.handleModalClose} newStage={game.stats.stage} ITEMS={ITEMS} lang={game.lang}/>
+          isOpen={game.showGallery} 
+          onClose={() => game.setShowGallery(false)} 
+          collection={game.collection} 
+          lang={game.lang}
+          t={t} 
+        />        
+        <UnlockModal isOpen={game.evolutionStep === 'modal'} onClose={game.handleModalClose} newStage={game.stats.stage} ITEMS={ITEMS} lang={game.lang}/>
       </div>
     </div>
   );

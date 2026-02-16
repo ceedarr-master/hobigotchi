@@ -41,7 +41,7 @@
   --font-size-hobi-xl: 29px;
   --font-family-pixel: 'Galmuri11', 'Galmuri', monospace, system-ui;
   --font-family: 'Galmuri11', 'Galmuri', monospace, system-ui;
-  --font-weight-bold: 400 !important;
+  --font-weight-bold: 500 !important;
   --animate-white-out: white-out 1.2s ease-in-out forwards;
 
 }

@@ -301,3 +301,62 @@ const handleShare = async () => {
     handleShare
   };
 };
+
+// src/hooks/useGameLoader.js
+
+const useGameLoader = (imageUrls) => {
+  const [isMobile, setIsMobile] = useState(false);
+  const [showWarning, setShowWarning] = useState(false); // 경고창 띄울지 여부
+  const [startLoading, setStartLoading] = useState(false); // 로딩 시작 신호
+  const [isLoaded, setIsLoaded] = useState(false); // 로딩 완료 여부
+  const [progress, setProgress] = useState(0); // (선택사항) 로딩 진행률 0~100
+
+  // 1. 모바일인지 확인 (간단한 User Agent 체크)
+  useEffect(() => {
+    const checkMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+    setIsMobile(checkMobile);
+
+    if (checkMobile) {
+      setShowWarning(true); // 모바일이면 경고창 띄움
+    } else {
+      setStartLoading(true); // PC면 바로 로딩 시작
+    }
+  }, []);
+
+  // 2. 로딩 로직 (startLoading이 true가 되면 실행)
+  useEffect(() => {
+    if (!startLoading) return;
+    if (!imageUrls || imageUrls.length === 0) {
+      setIsLoaded(true);
+      return;
+    }
+
+    let loadedCount = 0;
+    const total = imageUrls.length;
+
+    imageUrls.forEach((src) => {
+      const img = new Image();
+      img.src = src;
+      img.onload = () => {
+        loadedCount++;
+        setProgress(Math.round((loadedCount / total) * 100));
+        if (loadedCount === total) setIsLoaded(true);
+      };
+      img.onerror = () => { // 에러나도 진행
+        loadedCount++;
+        setProgress(Math.round((loadedCount / total) * 100));
+        if (loadedCount === total) setIsLoaded(true);
+      };
+    });
+  }, [startLoading, imageUrls]);
+
+  // 사용자가 "다운로드" 버튼을 눌렀을 때 호출할 함수
+  const confirmDownload = () => {
+    setShowWarning(false);
+    setStartLoading(true);
+  };
+
+  return { isMobile, showWarning, isLoaded, progress, confirmDownload };
+};
+
+export default useGameLogic;

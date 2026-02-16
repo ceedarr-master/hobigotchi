@@ -18,6 +18,8 @@ const EvolutionEffect = ({ stage, theme = 'blue' }) => {
     // 1. 팡! 터지는 이펙트 (Confetti)
     if (stage === 'confetti') {
       const isFinal = theme === 'final';
+      // [수정 포인트 2: 파티클 밀도]
+      // 숫자가 높을수록 화려하지만, 저사양 기기에서 프레임 드랍이 생길 수 있습니다.
       const count = isFinal ? 50 : 35; // 성인은 더 많이 터지게
       
       const newParticles = Array.from({ length: count }).map((_, i) => {
@@ -32,11 +34,13 @@ const EvolutionEffect = ({ stage, theme = 'blue' }) => {
           shapeName = basicShapes[Math.floor(Math.random() * basicShapes.length)];
         }
 
-        const size = Math.random() * 20 + 15; // 15px ~ 35px
-        const angle = Math.random() * Math.PI * 2;
-        const startDist = Math.random() * 30 + 130; 
-        const endDist = startDist + (Math.random() * 120 + 180);
-        const duration = Math.random() * 0.6 + 1; // 초 단위 숫자
+        const size = Math.random() * 20 + 15; // 크기 범위 (15px ~ 35px)
+        const angle = Math.random() * Math.PI * 2; // 터지는 방향 (360도)
+        const startDist = Math.random() * 0 + 100; // startDist: 중앙에서 얼마나 떨어진 곳에서 나타날 것인가
+        const endDist = startDist + (Math.random() * 120 + 180); // endDist: 최종적으로 날아가는 거리 (값이 커질수록 속도가 빨라 보임)
+        // [수정 포인트 4: 속도감]
+        // duration이 짧을수록 '팍!' 하고 빠르게 터지고, 길수록 '스르륵' 퍼집니다.
+        const duration = Math.random() * 0.3 + 1.5; // 초 단위 숫자
 
         return {
           id: i,
@@ -47,8 +51,10 @@ const EvolutionEffect = ({ stage, theme = 'blue' }) => {
           startY: Math.sin(angle) * startDist,
           endX: Math.cos(angle) * endDist,
           endY: Math.sin(angle) * endDist,
+          // rotEnd: 회전수 (값이 클수록 팽이처럼 많이 돌면서 날아감)
           rotEnd: Math.random() * 360 - 180,
           duration: `${duration}s`,
+          // delay: 파티클이 순차적으로 터지는 느낌을 줌 (0.3을 키우면 더 오래 터짐)
           delay: Math.random() * 0.3
         };
       });
@@ -57,12 +63,14 @@ const EvolutionEffect = ({ stage, theme = 'blue' }) => {
     
     // 2. 지속적인 별빛 효과 (Twinkle) - 성인 단계일 때만
     if (theme === 'final' && (stage === 'confetti' || stage === 'completed')) {
-        const newTwinkles = Array.from({ length: 20 }).map((_, i) => ({
+      // [수정 포인트 5: 배경 반짝임 개수]  
+      const newTwinkles = Array.from({ length: 20 }).map((_, i) => ({
             id: i,
-            left: Math.random() * 100, // 0% ~ 100%
-            top: Math.random() * 100,
+            left: Math.random() * 100, // 화면 전체 가로 분포
+            top: Math.random() * 100,// 화면 전체 세로 분포
             size: Math.random() * 15 + 10, // 10px ~ 25px
             delay: Math.random() * 2, // 0 ~ 2초 지연
+            // duration: 반짝이는 주기 (짧을수록 깜빡임이 빨라짐)
             duration: Math.random() * 1 + 1.5, // 1.5 ~ 2.5초 주기
             shape: finalShapes[Math.floor(Math.random() * finalShapes.length)]
         }));
