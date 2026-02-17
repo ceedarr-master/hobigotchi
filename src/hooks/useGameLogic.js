@@ -44,17 +44,25 @@ export const useGameLogic = () => {
   const [isShaking, setIsShaking] = useState(false);
   const [isEvolution, setIsEvolution] = useState(false);
   const [evolutionStage, setEvolutionStage] = useState('none');
-  
-  // 진화 대기 상태
   const [isEvolutionPending, setIsEvolutionPending] = useState(false);
 
   const [history, setHistory] = useState(() => 
     safeParse('hobigotchi_history', { items: {}, actions: {} })
   );
   
-  const [evolutionStep, setEvolutionStep] = useState('none');
+  // 성인 상태라면 새로고침 후에도 'completed'(엔딩 화면) 상태 유지
+  const [evolutionStep, setEvolutionStep] = useState(() => {
+    if (stats.stage === 'adult') return 'completed';
+    return 'none';
+  });
+
   const [randomSpeech, setRandomSpeech] = useState(null);
-  const [endingStep, setEndingStep] = useState(0); 
+
+  // [수정 완료] 성인 상태라면 '10' (최종 버튼 화면)으로 복구
+  const [endingStep, setEndingStep] = useState(() => {
+    if (stats.stage === 'adult') return 10; // 2 -> 10 변경
+    return 0;
+  }); 
 
   const [showSettings, setShowSettings] = useState(false);
   const [showGallery, setShowGallery] = useState(false);
@@ -73,7 +81,6 @@ export const useGameLogic = () => {
 
   // [성장 단계] Pending 상태가 되면 -> 0.5초 뒤에 다음 단계로
   useEffect(() => {
-    // 주의: 알 부화 단계(hatchStep !== 'complete')에서는 이 useEffect가 아닌 handleNextStep에서 직접 처리함
     if (isEvolutionPending && hatchStep === 'complete') {
       const timer = setTimeout(() => {
         setEvolutionStep('ready');    
@@ -125,7 +132,7 @@ export const useGameLogic = () => {
     setIsEvolutionPending(false); 
     
     if (nextStage === 'adult') {
-        setEndingStep(2); 
+        setEndingStep(2); // 강제 진화 시에는 처음부터 보여줌 (2)
         setEvolutionStep('completed');
     } else {
         setEvolutionStep('completed');
@@ -167,7 +174,7 @@ export const useGameLogic = () => {
       setEvolutionStep('completed');
       
       if (nextStage === 'adult') {
-          setEndingStep(2);
+          setEndingStep(2); // 정상 진화 시에는 처음부터 보여줌 (2)
       }
       updateRandomSpeech();
     }, 1000);
@@ -204,20 +211,13 @@ export const useGameLogic = () => {
     else if (hatchStep === 'hatching_start') setHatchStep('hatching_process');
     else if (hatchStep === 'hatching_process') {
       if (clickCount < 9) {
-        // 일반 클릭 (1~9회)
         setClickCount(prev => prev + 1);
         setIsShaking(true);
         setTimeout(() => setIsShaking(false), 200);
       } else {
-        // [수정됨] 마지막 클릭 (10회)
-        
-        // 1. 카운트를 올려서 게이지를 꽉 채움 (9 -> 10)
         setClickCount(prev => prev + 1);
-        
-        // 2. 버튼 잠금 (Pending 상태)
         setIsEvolutionPending(true);
 
-        // 3. 0.5초 딜레이 후 진화 시작
         setTimeout(() => {
             setEvolutionStage('flash');
             setIsEvolution(true);
@@ -241,12 +241,12 @@ export const useGameLogic = () => {
     
               setHatchStep('hatched');
               setIsEvolution(false);
-              setIsEvolutionPending(false); // 잠금 해제
+              setIsEvolutionPending(false); 
               updateRandomSpeech();
             }, 1000);
             
             setTimeout(() => setEvolutionStage('none'), 2500);
-        }, 500); // 딜레이 시간
+        }, 500); 
       }
     } else if (hatchStep === 'hatched') setHatchStep('complete');
   };
