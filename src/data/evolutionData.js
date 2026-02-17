@@ -181,7 +181,7 @@ export const CHARACTER_INFO = {
     dialogue: { ko: "집안일을 너무 많이 하다가 그만", en: "Too many chores...", jp: "家事が多すぎて..." }
   },
   'adult_mum': {
-    name: { ko: "마미 홉", en: "Mommy Hope", jp: "マミー・ホープ" },
+    name: { ko: "마미홉", en: "Mommy Hope", jp: "マミー・ホープ" },
     dialogue: { ko: "무슨 일이니 마이 도터", en: "What's wrong, my daughter?", jp: "どうしたの？私のムスメ。" }
   },
   'adult_revolve': {
@@ -335,7 +335,7 @@ export const determineNextEvolution = (currentStage, stats, history) => {
   
   // 기본값 (Fallback)
   if (currentStage === 'child') return 'teen_run';
-  if (currentStage === 'teen') return 'college_butter';
+  if (currentStage === 'teen') return 'college_street';
   if (currentStage === 'college') return 'adult_cafe';
   
   return stats.characterId;

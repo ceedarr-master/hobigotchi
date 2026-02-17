@@ -2,6 +2,8 @@ import { useState, useEffect } from 'react';
 import { CHILD_BASE_STATS, determineNextEvolution, CHARACTER_INFO } from '../data/evolutionData';
 import { BUBBLES } from '../data/textData';
 import { INITIAL_STATS } from '../data/gameConfig';
+
+import ReactGA from "react-ga4"; 
 import { ITEMS } from '../data/itemData';
 
 const CHILD_CHARACTERS = ['child_debut', 'child_chestnut', 'child_joseon', 'child_goodboy', 'child_blueberry'];
@@ -149,6 +151,13 @@ export const useGameLogic = () => {
 
     const nextCharId = determineNextEvolution(stats.stage, stats, history);
     
+    // [GA4 추가] 진화할 다음 단계 미리 계산 (stage 값)
+    let nextStage = '';
+    if (stats.stage === 'child') nextStage = 'teen';
+    else if (stats.stage === 'teen') nextStage = 'college';
+    else if (stats.stage === 'college') nextStage = 'adult';
+
+
     setCollection(prev => {
       if (prev.includes(nextCharId)) return prev;
       return [...prev, nextCharId];
@@ -254,6 +263,14 @@ export const useGameLogic = () => {
   const handleItemClick = (item) => {
     if (isEvolutionPending) return;
 
+// [GA4 추가] 아이템 사용 이벤트 전송
+    ReactGA.event("use_item", {
+      item_id: item.id,       // 예: f_snickers
+      item_name: item.ko,     // 예: 스니커즈 (알아보기 쉬움)
+      item_type: item.type,   // 예: food
+      item_group: item.group  // 예: snack
+    });
+
     setHistory(prev => ({ ...prev, items: { ...prev.items, [item.id]: (prev.items[item.id] || 0) + 1 } }));
     setStats(prev => {
       const nextHp = Math.max(0, Math.min(100, prev.hp + item.hp));
@@ -277,6 +294,14 @@ export const useGameLogic = () => {
         console.error(`Item data not found for action: ${type} (mapped to ${itemId})`);
         return;
     }
+
+    // [GA4 추가] 기본 행동 사용 이벤트 전송
+    ReactGA.event("use_item", {
+      item_id: itemData.id,
+      item_name: itemData.ko,
+      item_type: itemData.type,
+      item_group: itemData.group
+    });
 
     setHistory(prev => ({ ...prev, actions: { ...prev.actions, [type]: (prev.actions[type] || 0) + 1 } }));
     
