@@ -347,40 +347,28 @@ export const useGameLogic = () => {
     setActiveAction(null);
   };
 
-  const handleShare = async () => {
+ const handleShare = () => {
     const charId = stats.characterId;
-    const charInfo = CHARACTER_INFO[charId];
+    const charInfo = CHARACTER_INFO[charId]; // CHARACTER_INFO import 필요
     const charName = (charInfo && charInfo.name && (charInfo.name[lang] || charInfo.name['ko'])) || "제이홉";
 
-    let shareTitle = "Hobigotchi";
+    // 해시태그에서 '#' 기호는 제외하고 쉼표로만 구분해야 API가 인식합니다.
+    const hashtags = "호비고치,Hobigotchi,HAPPYJHOPEDAY,jhope,제이홉";
     let shareText = "";
-    let hashtags = "";
 
+    // 멘트 설정
     if (lang === 'ko') {
       shareText = `내 제이홉이 [${charName}]으로 자랐어요! 💜`;
-      hashtags = "호비고치,Hobigotchi,ホビゴチ,HAPPYJHOPEDAY,제이홉,jhope";
     } else if (lang === 'jp') {
       shareText = `私のホビは [${charName}] に育ちました! 💜`;
-      hashtags = "호비고치,Hobigotchi,ホビゴチ,HAPPYJHOPEDAY,제이홉,jhope";
     } else {
       shareText = `My Hobi grew up into [${charName}]! 💜`;
-      hashtags = "호비고치,Hobigotchi,ホビゴチ,HAPPYJHOPEDAY,제이홉,jhope";
     }
 
-    if (navigator.share) {
-      try {
-        await navigator.share({
-          title: shareTitle,
-          text: shareText,
-          url: GAME_URL,
-        });
-        return; 
-      } catch (err) {
-        console.log("Native share skipped/cancelled:", err);
-      }
-    }
+    // 트위터 URL 생성 (encodeURIComponent로 특수문자/공백 처리 필수)
+    const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}&url=${encodeURIComponent(GAME_URL)}&hashtags=${encodeURIComponent(hashtags)}`;
 
-    const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}&url=${encodeURIComponent(GAME_URL)}&hashtags=${hashtags}`;
+    // 새 창(또는 앱)으로 열기
     window.open(twitterUrl, '_blank');
   };
 
