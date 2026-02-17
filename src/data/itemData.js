@@ -52,22 +52,22 @@ export const ITEMS = [
     {
       id: 'f_dubai', type: 'food', group: 'dessert', icon: `${ICON_BASE}/cookie.svg`,
       ko: '두쫀쿠', en: 'Dubai chewy cookie', jp: 'ドゥシュク',
-      r: -5, g: 10, b: 0, y: 12, hp: 5, clean: -5, love: 10, unlock: 3
+      r: -5, g: 6, b: 0, y: 12, hp: 5, clean: -5, love: 10, unlock: 3
     },
      {
       id: 'f_tart', type: 'food', group: 'dessert', icon: `${ICON_BASE}/cake.svg`,
       ko: '자몽타르트', en: 'Grapefruit tart', jp: 'グレープフルーツタルト',
-      r: -5, g: 10, b: 0, y: 12, hp: 10, clean: -5, love: 15, unlock: 1
+      r: -5, g: 10, b: 0, y: 6, hp: 10, clean: -5, love: 15, unlock: 1
     },
      {
       id: 'f_pudding', type: 'food', group: 'dessert', icon: `${ICON_BASE}/cookie.svg`,
       ko: '커피푸딩', en: 'Coffee pudding', jp: 'コーヒーゼリー',
-      r: -5, g: 10, b: 0, y: 12, hp: 10, clean: -5, love: 8, unlock: 2
+      r: -5, g: 6, b: 0, y: 10, hp: 10, clean: -5, love: 8, unlock: 2
     },
     {
       id: 'f_churros', type: 'food', group: 'dessert', icon: `${ICON_BASE}/cookie.svg`,
       ko: '츄러스', en: 'Churros', jp: 'チュロス',
-      r: -5, g: 10, b: 0, y: 12, hp: 10, clean: -5, love: 25, unlock: 2
+      r: -5, g: 10, b: 0, y: 8, hp: 10, clean: -5, love: 25, unlock: 2
     },
   
   
