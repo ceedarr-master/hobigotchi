@@ -17,10 +17,10 @@ const SubMenuList = ({ items, theme, onItemClick, lang }) => {
 
   return (
     <div className="absolute bottom-[130px] left-0 w-full z-30 overflow-x-auto scrollbar-hide px-6">
-      <div ref={scrollRef} className="flex flex-col gap-4 w-max pt-2 pb-2">
+      <div ref={scrollRef} className="flex flex-col gap-3 w-max pt-2 pb-1">
         
         {/* 첫 번째 줄 */}
-        <div className="flex gap-3">
+        <div className="flex gap-2">
           {row1.map((item) => (
             <ButtonS 
               key={item.id}
@@ -34,7 +34,7 @@ const SubMenuList = ({ items, theme, onItemClick, lang }) => {
         </div>
 
         {/* 두 번째 줄 */}
-        <div className="flex gap-3">
+        <div className="flex gap-2">
           {row2.map((item) => (
             <ButtonS 
               key={item.id}

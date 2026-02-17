@@ -1,8 +1,8 @@
 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path d="M12.0028 21C16.8593 21 20.8177 17.1545 20.9991 12.3424C21.0049 12.1889 20.8383 12.0919 20.7011 12.1609C18.225 13.4077 16.6954 12.0843 16.9437 10.3073C16.964 10.1618 16.837 10.0296 16.6916 10.0499C14.5209 10.3534 13.6064 9.03577 13.9481 7.24638C13.9725 7.11854 13.8764 6.99606 13.7467 6.98455C11.7041 6.80316 11.5354 4.44423 11.8857 3.29509C11.9291 3.15283 11.8272 2.99487 11.6786 3.00013C6.85665 3.17081 3 7.13362 3 11.9972C3 16.9693 7.03069 21 12.0028 21Z" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-<path d="M15 16.3536L15.3536 16" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-<path d="M10 17.3536L10.3536 17" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-<path d="M8 8.35355L8.35355 8" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-<path d="M7 13.3536L7.35355 13" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-<path d="M12 12.3536L12.3536 12" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M12.0028 21C16.8593 21 20.8177 17.1545 20.9991 12.3424C21.0049 12.1889 20.8383 12.0919 20.7011 12.1609C18.225 13.4077 16.6954 12.0843 16.9437 10.3073C16.964 10.1618 16.837 10.0296 16.6916 10.0499C14.5209 10.3534 13.6064 9.03577 13.9481 7.24638C13.9725 7.11854 13.8764 6.99606 13.7467 6.98455C11.7041 6.80316 11.5354 4.44423 11.8857 3.29509C11.9291 3.15283 11.8272 2.99487 11.6786 3.00013C6.85665 3.17081 3 7.13362 3 11.9972C3 16.9693 7.03069 21 12.0028 21Z" stroke="#1B1F4B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M15 16.3536L15.3536 16" stroke="#1B1F4B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M10 17.3536L10.3536 17" stroke="#1B1F4B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M8 8.35355L8.35355 8" stroke="#1B1F4B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M7 13.3536L7.35355 13" stroke="#1B1F4B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M12 12.3536L12.3536 12" stroke="#1B1F4B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
 </svg>

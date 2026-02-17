@@ -124,39 +124,31 @@
   }
 }
 
-.animate-particle-enhanced {
-  /* backwards: 애니메이션 대기 시간(delay) 동안 0%의 스타일을 유지함 */
+/* [수정] 폭발적인 느낌을 위한 전용 키프레임 */
+@keyframes evolution-burst {
   0% {
-    /* 시작: 외곽 위치, 크기 0, 투명도 0 */
-    transform: translate(var(--start-x), var(--start-y)) scale(0);
+    /* 중앙(또는 미세한 오프셋)에서 작게 시작 */
+    transform: translate(var(--start-x), var(--start-y)) scale(0) rotate(0deg);
     opacity: 0;
   }
-  15% {
-    /* 빠르게 커지며 나타남 (크기 100%) */
+  5% {
+    /* 순식간에 나타나며 살짝 커짐 (Pop 효과) */
     opacity: 1;
     transform: translate(
       calc(var(--start-x) + (var(--end-x) - var(--start-x)) * 0.2),
       calc(var(--start-y) + (var(--end-y) - var(--start-y)) * 0.2)
-    ) scale(1.2); /* 살짝 더 커졌다가 줄어드는 탄성 효과 */
-  }
-  50% {
-    /* 중간 지점에서 최대 크기 유지 및 이동 */
-    opacity: 1;
-    transform: translate(
-      calc(var(--start-x) + (var(--end-x) - var(--start-x)) * 0.6),
-      calc(var(--start-y) + (var(--end-y) - var(--start-y)) * 0.6)
-    ) scale(1);
+    ) scale(1.2);
   }
   100% {
-    /* 끝: 최종 위치, 크기 0으로 소멸, 회전 완료 */
-    transform: translate(var(--end-x), var(--end-y)) rotate(var(--rot-end)) scale(0);
+    /* 최종 위치로 날아가며 회전하고 사라짐 */
+    transform: translate(var(--end-x), var(--end-y)) scale(0.3) rotate(var(--rot-end));
     opacity: 0;
   }
 }
 
 .animate-particle-enhanced {
-  /* cubic-bezier(0.1, 0.9, 0.2, 1)은 초기에 폭발적으로 빠르고 끝에 아주 부드럽게 멈추는 곡선입니다 */
-  animation: particle-enhanced var(--duration) cubic-bezier(0.1, 0.9, 0.2, 1) forwards;
+  /* 반드시 위에서 정의한 evolution-burst 이름을 사용해야 합니다 */
+  animation: evolution-burst var(--duration) cubic-bezier(0.1, 0.9, 0.2, 1) forwards;
 }
 
 body { font-family: var(--font-family-pixel); color: var(--color-hobi-black); margin: 0; }

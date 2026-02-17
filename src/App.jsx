@@ -147,7 +147,7 @@ function App() {
 
   // [말풍선 텍스트]
   const getSpeechText = () => {
-    if (game.evolutionStep === 'ready') return game.lang === 'jp' ? "あれ？ホソクの状態が...？" : "오메?";
+    if (game.evolutionStep === 'ready') return game.lang === 'jp' ? "あれ？" : "오메?";
     
     if (game.evolutionStep === 'completed') {
        // [추가] 성인 엔딩 2단계(완료 멘트)에서는 말풍선 숨김
@@ -159,7 +159,7 @@ function App() {
     
     if (game.hatchStep === 'discovery') return t('egg_greet');
     if (game.hatchStep === 'hatching_start') return t('egg_help');
-    if (game.hatchStep === 'hatching_process') return game.isShaking ? t('egg_shake') : t('egg_help');
+    if (game.hatchStep === 'hatching_process') return game.isShaking ? t('egg_help') : t('egg_help');
     if (game.hatchStep === 'hatched') {
        const charData = CHARACTER_INFO[game.stats.characterId];
        return (charData?.dialogue?.[game.lang]) || t('egg_greet');
@@ -184,7 +184,7 @@ function App() {
       
       <EvolutionEffect stage={game.evolutionStage} theme={activeTheme.effect} />
       
-      <div className="w-full max-w-[600px] max-h-[1020px] h-screen flex flex-col relative bg-cover bg-center transition-all duration-500" 
+      <div className="w-full max-w-[440px] max-h-[956px] h-screen flex flex-col relative bg-cover bg-center transition-all duration-500" 
            style={{ backgroundImage: `url('${getBgImage()}')` }}>
         
         <GameHeader 
@@ -208,7 +208,7 @@ function App() {
           hatchStep={game.hatchStep} stats={game.stats} isShaking={game.isShaking || game.evolutionStep === 'ready'} 
           isEvolution={game.isEvolution} speechText={getSpeechText()} 
         />
-        
+        <div className="flex-shrink-0 h-[120px] w-full relative">
         <InteractionArea 
           hatchStep={game.hatchStep} evolutionStage={game.evolutionStage} activeAction={game.activeAction} 
           ITEMS={ITEMS} ACTION_THEMES={ACTION_THEMES} 
@@ -230,7 +230,7 @@ function App() {
           // 공유 핸들러 전달
           onShare={game.handleShare}
         />
-        
+        </div>
         <SettingsModal isOpen={game.showSettings} onClose={() => game.setShowSettings(false)} t={t} lang={game.lang} onLangChange={game.setLang} />
         <GalleryModal 
           isOpen={game.showGallery} 

@@ -4,8 +4,8 @@ import CharacterFrame from './CharacterFrame';
 
 const CharacterDisplay = ({ hatchStep, stats, isShaking, isEvolution, speechText }) => {
   return (
-    <div className="flex-grow flex flex-col items-center justify-center relative z-10">
-      <SpeechBubble className="bottom-[85%] left-1/2 -translate-x-1/2">
+    <div className="flex-grow flex flex-col items-center justify-center relative z-10 pt-[10%]">
+      <SpeechBubble className="bottom-[81%] left-1/2 -translate-x-1/2">
         {speechText}
       </SpeechBubble>
 

@@ -58,7 +58,7 @@ export const ButtonM = ({ label, icon, theme, onClick, isActive }) => (
 export const ButtonS = ({ label, icon, theme, onClick }) => (
   <button 
     onClick={onClick}
-    className={`${baseStyle} w-max h-16 px-5 justify-between border-[3px] rounded-[20px]
+    className={`${baseStyle} w-max h-12 px-4 justify-between border-[3px] rounded-[15px]
     ${theme.bg} ${theme.border} ${theme.shadow_s} 
     hover:-translate-y-[2px] active:translate-y-[4px] active:shadow-none`} 
   >

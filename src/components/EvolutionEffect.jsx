@@ -26,40 +26,38 @@ const EvolutionEffect = ({ stage, theme = 'blue' }) => {
       
       const newParticles = Array.from({ length: count }).map((_, i) => {
         // [파일명 결정 로직]
-        let shapeName = '';
-        if (isFinal) {
-          // 성인 테마: final_star_1.svg, final_ellipse.svg 등
-          const shape = finalShapes[Math.floor(Math.random() * finalShapes.length)];
-          shapeName = shape; // 나중에 렌더링 할 때 theme + '_' + shapeName 조합
-        } else {
-          // 일반 테마: blue_star4.svg 등
-          shapeName = basicShapes[Math.floor(Math.random() * basicShapes.length)];
-        }
+        let shapeName = isFinal 
+    ? finalShapes[Math.floor(Math.random() * finalShapes.length)]
+    : basicShapes[Math.floor(Math.random() * basicShapes.length)];
 
-        const size = Math.random() * 20 + 20; // 크기 범위 (15px ~ 35px)
-        const angle = Math.random() * Math.PI * 2; // 터지는 방향 (360도)
-        const startDist = Math.random() * 40 + 140; // startDist: 중앙에서 얼마나 떨어진 곳에서 나타날 것인가
-        const endDist = startDist + (Math.random() * 100 + 150); // endDist: 최종적으로 날아가는 거리 (값이 커질수록 속도가 빨라 보임)
-        // [수정 포인트 4: 속도감]
-        // duration이 짧을수록 '팍!' 하고 빠르게 터지고, 길수록 '스르륵' 퍼집니다.
-        const duration = Math.random() * 0.8 + 1.2; // 초 단위 숫자
+  const size = Math.random() * 12 + 10; // 크기를 10~22px로 살짝 줄여 종이가루 느낌 강조
+  const angle = Math.random() * Math.PI * 2;
 
-        return {
-          id: i,
-          shape: shapeName,
-          size,
-          // 위치 계산
-          startX: Math.cos(angle) * startDist,
-          startY: Math.sin(angle) * startDist,
-          endX: Math.cos(angle) * endDist,
-          endY: Math.sin(angle) * endDist,
-          // rotEnd: 회전수 (값이 클수록 팽이처럼 많이 돌면서 날아감)
-          rotEnd: Math.random() * 360 - 180,
-          duration: `${duration}s`,
-          // delay: 파티클이 순차적으로 터지는 느낌을 줌 (0.3을 키우면 더 오래 터짐)
-          delay: Math.random() * 0.2
-        };
-      });
+  // 1. 시작 거리: 140px -> 10px로 축소 (캐릭터 중앙에서 터지게 함)
+  const startDist = Math.random() * 200; 
+  
+  // 2. 최종 거리: 더 멀리 시원하게 날아가도록 설정
+  const endDist = startDist + (Math.random() * 150 + 230);
+
+  // 3. 속도: 1.2s -> 0.7s~0.9s로 단축 (타격감의 핵심)
+  const duration = Math.random() * 1.7 + 2.3; 
+
+  // 4. 딜레이: 0.3s 이내로 순차적으로 터지게
+  const delay = Math.random() * 0.6;
+
+  return {
+    id: i,
+    shape: shapeName,
+    size,
+    startX: Math.cos(angle) * startDist,
+    startY: Math.sin(angle) * startDist,
+    endX: Math.cos(angle) * endDist,
+    endY: Math.sin(angle) * endDist,
+    rotEnd: Math.random() * 720 - 360, // 회전을 더 많이 줘서 역동성 부여
+    duration: `${duration}s`,
+    delay: `${delay}s` // 딜레이 적용
+  };
+});
       setParticles(newParticles);
     }
     
@@ -70,7 +68,7 @@ const EvolutionEffect = ({ stage, theme = 'blue' }) => {
             id: i,
             left: Math.random() * 100, // 화면 전체 가로 분포
             top: Math.random() * 100,// 화면 전체 세로 분포
-            size: Math.random() * 15 + 10, // 10px ~ 25px
+            size: Math.random() * 10 + 5, // 10px ~ 25px
             delay: Math.random() * 2, // 0 ~ 2초 지연
             // duration: 반짝이는 주기 (짧을수록 깜빡임이 빨라짐)
             duration: Math.random() * 1 + 1.5, // 1.5 ~ 2.5초 주기
@@ -104,7 +102,7 @@ const EvolutionEffect = ({ stage, theme = 'blue' }) => {
           key={p.id}
           src={getParticleSrc(p.shape)}
           alt=""
-          className="absolute opacity-0 animate-particle-enhanced"
+          className="absolute opacity-100 animate-particle-enhanced"
           style={{
             width: `${p.size}px`,
             left: '50%',

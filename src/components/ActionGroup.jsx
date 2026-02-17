@@ -4,8 +4,8 @@ import { ButtonM } from './Buttons';
 const ActionGroup = ({ themes, activeAction, onActionClick, lang = 'ko' }) => {
   // [추가] 카테고리 버튼용 다국어 맵
   const labels = {
-    ko: { food: '음식', activity: '활동', wash: '씻기', rest: '쉬기' },
-    en: { food: 'Food', activity: 'Activity', wash: 'Wash', rest: 'Rest' },
+    ko: { food: '음식', activity: '활동', wash: '씻기', rest: '자기' },
+    en: { food: 'Food', activity: 'Activity', wash: 'Wash', rest: 'rest' },
     jp: { food: '食べ物', activity: '活動', wash: '洗う', rest: '休み' }
   };
 

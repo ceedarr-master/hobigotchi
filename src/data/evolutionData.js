@@ -133,7 +133,7 @@ export const CHARACTER_INFO = {
     dialogue: { ko: "그 커피 원두는 이디오피아가 아니고\n이모토? 워다이? 그건디요", en: "They are from Imoto?\nOr maybe Wodai?", jp: "イモト出身？\nそれともウォダイ？" }
   },
   'adult_crown': {
-    name: { ko: "광대홉", en: "Clown Hope", jp: "ピエロホップ" },
+    name: { ko: "멋쟁이신사홉", en: "Fashion King", jp: "ピエロホップ" },
     dialogue: { ko: "사실 조금 당황스럽긴 했습니다.\n그치만 진형의 정성이니깐..", en: "Actually, I was a little embarrassed.\nBut it was the Jin's sincerity.", jp: "実はちょっと恥ずかしいです。\nでもJinの真心だから…" }
   },
   'adult_cry': {
@@ -145,7 +145,7 @@ export const CHARACTER_INFO = {
     dialogue: { ko: "아빠 안잔다", en: "Kids, go to bed.", jp: "パパは寝てないぞ" }
   },
   'adult_diva': {
-    name: { ko: "디바 홉", en: "Diva Hope", jp: "ディーバ・ホープ" },
+    name: { ko: "디바홉", en: "Diva Hope", jp: "ディーバ・ホープ" },
     dialogue: { ko: "모두 날 봐", en: "All eyes on me.", jp: "みんな、私に注目して。" }
   },
   'adult_flower': {

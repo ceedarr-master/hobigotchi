@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { CHILD_BASE_STATS, determineNextEvolution, CHARACTER_INFO } from '../data/evolutionData';
 import { BUBBLES } from '../data/textData';
 import { INITIAL_STATS } from '../data/gameConfig';
+import { ITEMS } from '../data/itemData';
 
 const CHILD_CHARACTERS = ['child_debut', 'child_chestnut', 'child_joseon', 'child_goodboy', 'child_blueberry'];
 const GAME_URL = "https://hobigotchi.vercel.app"; // 배포 URL (임시)
@@ -233,18 +234,53 @@ export const useGameLogic = () => {
   };
 
   const handleBasicAction = (type) => {
+    // 1. type(wash/rest)을 itemData의 ID(basic_wash/basic_sleep)로 매핑
+    const itemId = type === 'wash' ? 'basic_wash' : 'basic_sleep';
+    
+    // 2. ITEMS 배열에서 해당 아이템 데이터를 찾음
+    const itemData = ITEMS.find(item => item.id === itemId);
+
+    // 데이터가 없으면 실행 중지 (안전 장치)
+    if (!itemData) {
+        console.error(`Item data not found for action: ${type} (mapped to ${itemId})`);
+        return;
+    }
+
     setHistory(prev => ({ ...prev, actions: { ...prev.actions, [type]: (prev.actions[type] || 0) + 1 } }));
+    
     setStats(prev => {
-      const hpChange = type === 'rest' ? 70 : 0; 
-      const nextHp = Math.max(0, Math.min(100, prev.hp + hpChange));
+      // 3. itemData에 정의된 수치 적용
+      const changeHp = itemData.hp || 0;
+      const changeClean = itemData.clean || 0;
+      const changeLove = itemData.love || 0;
+      const changeR = itemData.r || 0;
+      const changeG = itemData.g || 0;
+      const changeB = itemData.b || 0;
+      const changeY = itemData.y || 0;
+
+      const nextHp = Math.max(0, Math.min(100, prev.hp + changeHp));
+      const nextClean = Math.max(0, Math.min(100, prev.clean + changeClean));
+      const nextLove = Math.max(0, Math.min(100, prev.love + changeLove));
+
       return {
-        ...prev, clean: type === 'wash' ? Math.min(100, prev.clean + 50) : prev.clean,
-        hp: nextHp, turn: prev.turn + 1, minHp: Math.min(prev.minHp, nextHp)
+        ...prev, 
+        hp: nextHp,
+        clean: nextClean,
+        love: nextLove,
+        r: prev.r + changeR,
+        g: prev.g + changeG,
+        b: prev.b + changeB,
+        y: prev.y + changeY,
+        turn: prev.turn + 1, 
+        minHp: Math.min(prev.minHp, nextHp)
       };
     });
+    
     updateRandomSpeech();
     setActiveAction(null);
   };
+
+
 const handleShare = async () => {
     const charId = stats.characterId;
     // 캐릭터 이름 가져오기 (언어별 폴백 처리)
@@ -257,14 +293,14 @@ const handleShare = async () => {
 
     // 언어별 텍스트 설정
     if (lang === 'ko') {
-      shareText = `제이홉이 [${charName}]으로 자랐어요! 💜`;
-      hashtags = "호비고치,Hobigotchi,happyhobiday";
+      shareText = `내 제이홉이 [${charName}]으로 자랐어요! 💜`;
+      hashtags = "호비고치,Hobigotchi,HappyHobiDay";
     } else if (lang === 'jp') {
       shareText = `私のホビは [${charName}] に育ちました! 💜`;
-      hashtags = "Hobigotchi";
+      hashtags = "Hobigotchi,ホビゴチ,HappyHobiDay";
     } else {
       shareText = `My Hobi grew up into [${charName}]! 💜`;
-      hashtags = "Hobigotchi";
+      hashtags = "Hobigotchi,HappyHobiDay";
     }
 
     // Level 2: 네이티브 공유 (Mobile)

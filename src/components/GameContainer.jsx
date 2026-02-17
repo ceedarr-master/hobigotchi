@@ -11,7 +11,7 @@ const GameContainer = ({ children, bgImage, onContextMenu, onDragStart }) => {
       style={{ touchAction: 'manipulation' }}
     >
       <div 
-        className="w-full max-w-[600px] max-h-[1020px] h-screen flex flex-col relative bg-cover bg-center transition-all duration-500" 
+        className="w-full max-w-[440px] max-h-[956px] h-screen flex flex-col relative bg-cover bg-center transition-all duration-500" 
         style={{ backgroundImage: `url('${bgImage}')` }}
       >
         {children}

@@ -1,4 +1,6 @@
+
 export const BUBBLES = {
+  // ... (기존 BUBBLES 데이터 유지) ...
     // 1단계: 어린이 (child)
     child: {
       ko: [
@@ -79,7 +81,6 @@ export const BUBBLES = {
     },
 };
 
-
 export const UI_TEXT = {
   ko: { 
     discovery: "알을 발견했다!", 
@@ -98,7 +99,29 @@ export const UI_TEXT = {
     lang: "언어 설정", 
     dev: "개발자의 말", 
     share: "공유", 
-    start: "키워보자" 
+    start: "키워보자" ,
+    restart: "다시하기" ,
+    continue: "이어하기",
+    confirm: "확인하기",
+    action_hatch: "부화",
+    hatch_born: "{name}이 태어났다!",
+    evo_normal_grown: "{name}으로 자랐어!!",
+    //ending//
+    wow: "우와!",
+    action_next: "다음",
+    ask_restart: "다시 키워볼래요?",
+
+    evo_ready: "어라 {name}의 상태가...?",
+    evo_process: "진화 중...",
+    evo_adult_done: "최종 성장 완료!!",
+    evo_adult_grown: "\"{name}\"으로 성장했어☆!",
+
+    ending_1: "축하해!!",
+    ending_2: "여기까지 오느라 고생했어" ,
+    ending_3: "게임은 여기까지야",
+    ending_4: "제이홉의 다음은 뭘까?",
+    ending_5: "제이홉의 미래,",
+    ending_6: "엄청 기대돼!",
   },
   en: { 
     discovery: "Found an egg!", 
@@ -117,7 +140,29 @@ export const UI_TEXT = {
     lang: "Language", 
     dev: "Dev Note", 
     share: "Share", 
-    start: "Start" 
+    start: "Start" ,
+    restart: "Restart" ,
+    continue: "Continue",
+    confirm: "Confirm",
+    action_hatch: "Hatch",
+    hatch_born: "{name} is born!",
+    evo_normal_grown: "Grew into {name}!!☆",
+    //ending//
+    wow: "WOW!",
+    action_next: "Next",
+    ask_restart: "Restart?",
+
+    evo_ready: "Huh? {name} is...?",
+    evo_process: "Evolving...",
+    evo_adult_done: "Final Evolution Complete!!",
+    evo_adult_grown: "Grew into \"{name}\"☆!",
+
+    ending_1: "Contrats!!",
+    ending_2: "Good job getting here!" ,
+    ending_3: "Game ends here, but...",
+    ending_4: "What's next for j-hope?",
+    ending_5: "Hobi's future,",
+    ending_6: "Can't wait!"
   },
   jp: { 
     discovery: "卵を見つけた！", 
@@ -136,6 +181,29 @@ export const UI_TEXT = {
     lang: "言語設定", 
     dev: "開発者の言葉", 
     share: "共有", 
-    start: "育ててみよう" 
+    start: "育ててみよう" ,
+    restart: "再開" ,
+    continue: "続きから",
+    confirm: "確認する",
+    action_hatch: "孵化",
+
+    hatch_born: "{name}が生まれました!",
+    evo_normal_grown: "{name}に成長しました!!",
+    //ending//
+    wow: "うわー！",
+    action_next: "次へ",
+    ask_restart: "また育ててみますか？",
+
+    evo_ready: "あれ？{name}の状態が...？",
+    evo_process: "進化中...",
+    evo_adult_done: "最終成長完了!!",
+    evo_adult_grown: "\"{name}\"に育ったよ☆!",
+
+    ending_1: "おめでとう!!",
+    ending_2: "ここまでお疲れ様。",
+    ending_3: "ゲームはここまでだけど…",
+    ending_4: "ジェイホープの次はなんだろう？",
+    ending_5: "ジェイホープの未来、",
+    ending_6: "すごく楽しみ！"
   }
 };

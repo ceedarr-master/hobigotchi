@@ -87,7 +87,7 @@ const CharacterFrame = ({ characterId, isEgg, isShaking, isEvolution, turn }) =>
       ${isShaking ? 'animate-evolve-shake' : 'animate-rotate-slow'}
     `}>
       {isEgg ? (
-        <div className={`relative w-[200px] h-[240px] transition-all duration-300
+        <div className={`relative w-[180px] h-[234px] transition-all duration-300
           ${isEvolution ? 'brightness-0 invert animate-evolve-flash' : ''}
         `}>
           <svg viewBox="0 0 197 240" className="absolute inset-0 w-full h-full">
@@ -96,11 +96,11 @@ const CharacterFrame = ({ characterId, isEgg, isShaking, isEvolution, turn }) =>
               <clipPath id="eggClip"><path d={eggPath} /></clipPath>
             </defs>
             <image href={imagePath} width="100%" height="100%" clipPath="url(#eggClip)" preserveAspectRatio="xMidYMid slice" />
-          </svg>
+          </svg> 
         </div>
       ) : (
         <div className={`
-          w-[200px] h-[260px] bg-white border-[7px] border-hobi-black rounded-[30px] 
+          w-[180px] h-[234px] bg-white border-[7px] border-hobi-black rounded-[30px] 
           overflow-hidden flex items-center justify-center transition-all duration-300
           ${isEvolution ? 'brightness-0 invert animate-evolve-flash' : ''}
         `}>
