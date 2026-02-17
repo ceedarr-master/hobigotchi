@@ -322,15 +322,15 @@ export const useGameLogic = () => {
 
     if (lang === 'ko') {
       shareText = `내 제이홉이 [${charName}]으로 자랐어요! 💜`;
-      hashtags = "호비고치,Hobigotchi,HappyHobiDay";
+      hashtags = "호비고치,Hobigotchi,HAPPYJHOPEDAY,제이홉,jhope";
     } else if (lang === 'jp') {
       shareText = `私のホビは [${charName}] に育ちました! 💜`;
-      hashtags = "Hobigotchi,ホビゴチ,HappyHobiDay";
+      hashtags = "Hobigotchi,ホビゴチ,HAPPYJHOPEDAY,제이홉,jhope";
     } else {
       shareText = `My Hobi grew up into [${charName}]! 💜`;
-      hashtags = "Hobigotchi,HappyHobiDay";
+      hashtags = "Hobigotchi,HAPPYJHOPEDAY,제이홉,jhope";
     }
-
+    
     if (navigator.share) {
       try {
         await navigator.share({
