@@ -16,7 +16,7 @@ const SettingsModal = ({ isOpen, onClose, t, lang, onLangChange }) => {
       ],
       dev: [
         { label: "⋰˚★ 개발한 사람", desc: "싣ㅏ", url: "https://x.com/_ceedarr" },
-        { label: "⋰˚☆ 의견/문의/새캐릭터", desc: "새로운 아이템이나 캐릭터 추가 요청 대환영!", url: "https://spin-spin.com/ceedarr" },
+        { label: "⋰˚☆ 의견/문의/새캐릭터", desc: "새로운 아이템이나 버그, 캐릭터 추가 요청 대환영!", url: "https://spin-spin.com/ceedarr" },
         { label: "⋰˚★ 개발자 한마디", desc: "정호석은 셀카좀 올리셈. 님 이쁘고 나도 님 이쁜거 알아서 그래요. 암튼 생일 축하하고." },
       ]
     },
@@ -26,7 +26,7 @@ const SettingsModal = ({ isOpen, onClose, t, lang, onLangChange }) => {
       ],
       dev: [
         { label: "⋰˚★ Developer", desc: "Ceedarr", url: "https://x.com/_ceedarr" },
-        { label: "⋰˚☆ Contact", desc: "New item or character addition requests are welcome!", url: "https://spin-spin.com/ceedarr" },
+        { label: "⋰˚☆ Contact", desc: "New item, bug, or character addition requests are welcome!", url: "https://spin-spin.com/ceedarr" },
         { label: "⋰˚★ Dev's Note", desc: "Jung Hoseok, please upload some selfies. You are pretty and I know it. Anyway, happy birthday." }
       ],
     },
