@@ -306,7 +306,7 @@ export const EVOLUTION_RULES = {
     { id: 'adult_mum', priority: 1,  condition: (s, h) => get1st(s) === 'b' && (h.items['a_shop'] || 0) >= 5 && (h.actions['a_english'] || 0) >= 3 },// B 1위 + 쇼핑5 + 영어3
     { id: 'adult_revolve', priority: 2, condition: () => Math.random() < 0.01 }, // [랜덤] 회귀 (1% 확률) - 우선순위 높음
     { id: 'adult_rockstar', priority: 1, condition: (s, h) => isOnlySpecificActions(h, ['a_monitor', 'a_dance', 'a_vocal', 'a_idea'])},  // 연습벌레
-    { id: 'adult_soldier', priority: 1, condition: (s) => s.minHp >= 60 }, // 특급전사 (hp기록 필요)
+    { id: 'adult_soldier', priority: 1, condition: (s) => s.minHp >= 50 }, // 특급전사 (hp기록 필요)
     { id: 'adult_soldierprincess', priority: 1, condition: (s) => s.minHp >= 60 && get1st(s) === 'g' }, // 특급전사공주 (hp기록 필요)
     { id: 'adult_stage', priority: 1, condition: (s) => getStatGap(s) <= 5 && s.hp <= 50 && s.love >= 100 }, // 균등스탯 + 체력50이하 + 감성MAX
     { id: 'adult_strawberry', priority: 1, condition: (s, h) => (h.items['f_strawberry'] || 0) >= 15 }, // 딸기 15회

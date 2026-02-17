@@ -5,10 +5,8 @@ import { INITIAL_STATS } from '../data/gameConfig';
 import { ITEMS } from '../data/itemData';
 
 const CHILD_CHARACTERS = ['child_debut', 'child_chestnut', 'child_joseon', 'child_goodboy', 'child_blueberry'];
-const GAME_URL = "https://hobigotchi.vercel.app"; // 배포 URL (임시)
+const GAME_URL = "https://hobigotchi.vercel.app"; 
 
-// [안전한 파싱 함수] 
-// 컴포넌트(hook) 외부인 이곳에 위치해야 문법 에러가 나지 않습니다.
 const safeParse = (key, fallback) => {
   try {
     const saved = window.localStorage.getItem(key);
@@ -23,7 +21,6 @@ const safeParse = (key, fallback) => {
 export const useGameLogic = () => {
   // --- 1. State 선언 ---
   
-  // INITIAL_STATS가 로드되지 않았을 경우를 대비한 기본값
   const defaultStats = INITIAL_STATS || { hp: 100, clean: 100, love: 100, turn: 0, maxTurn: 10, stage: 'egg', characterId: 'egg' };
 
   const [stats, setStats] = useState(() => 
@@ -48,6 +45,9 @@ export const useGameLogic = () => {
   const [isEvolution, setIsEvolution] = useState(false);
   const [evolutionStage, setEvolutionStage] = useState('none');
   
+  // 진화 대기 상태
+  const [isEvolutionPending, setIsEvolutionPending] = useState(false);
+
   const [history, setHistory] = useState(() => 
     safeParse('hobigotchi_history', { items: {}, actions: {} })
   );
@@ -64,11 +64,25 @@ export const useGameLogic = () => {
   useEffect(() => { window.localStorage.setItem('hobigotchi_history', JSON.stringify(history)); }, [history]);
   useEffect(() => { window.localStorage.setItem('hobigotchi_collection', JSON.stringify(collection));}, [collection]);
 
+  // [성장 단계] 게이지가 찼을 때 -> Pending 상태 ON
   useEffect(() => {
-    if (stats.turn > stats.maxTurn && stats.stage !== 'adult' && evolutionStep === 'none' && hatchStep === 'complete') {
-      setEvolutionStep('ready');
+    if (stats.turn >= stats.maxTurn && stats.stage !== 'adult' && evolutionStep === 'none' && hatchStep === 'complete' && !isEvolutionPending) {
+      setIsEvolutionPending(true); 
     }
-  }, [stats.turn, stats.maxTurn, stats.stage, evolutionStep, hatchStep]);
+  }, [stats.turn, stats.maxTurn, stats.stage, evolutionStep, hatchStep, isEvolutionPending]);
+
+  // [성장 단계] Pending 상태가 되면 -> 0.5초 뒤에 다음 단계로
+  useEffect(() => {
+    // 주의: 알 부화 단계(hatchStep !== 'complete')에서는 이 useEffect가 아닌 handleNextStep에서 직접 처리함
+    if (isEvolutionPending && hatchStep === 'complete') {
+      const timer = setTimeout(() => {
+        setEvolutionStep('ready');    
+        setIsEvolutionPending(false); 
+      }, 500); 
+
+      return () => clearTimeout(timer);
+    }
+  }, [isEvolutionPending, hatchStep]);
   
   // --- 3. Handlers ---
 
@@ -103,11 +117,12 @@ export const useGameLogic = () => {
       ...prev,
       stage: nextStage,
       characterId: targetId,
-      turn: 1,
+      turn: 0,
       maxTurn: nextStage === 'teen' ? 13 : (nextStage === 'college' ? 15 : 0),
     }));
 
     setHatchStep('complete');
+    setIsEvolutionPending(false); 
     
     if (nextStage === 'adult') {
         setEndingStep(2); 
@@ -144,7 +159,7 @@ export const useGameLogic = () => {
         ...prev, 
         stage: nextStage, 
         characterId: nextCharId, 
-        turn: 1, 
+        turn: 0, 
         maxTurn: 999 
       }));
 
@@ -171,7 +186,7 @@ export const useGameLogic = () => {
       else if (nextStage === 'teen') nextMaxTurn = 13;
       else if (nextStage === 'college') nextMaxTurn = 15;
       
-      return { ...prev, turn: 1, maxTurn: nextMaxTurn };
+      return { ...prev, turn: 0, maxTurn: nextMaxTurn };
     });
   };
 
@@ -189,37 +204,56 @@ export const useGameLogic = () => {
     else if (hatchStep === 'hatching_start') setHatchStep('hatching_process');
     else if (hatchStep === 'hatching_process') {
       if (clickCount < 9) {
+        // 일반 클릭 (1~9회)
         setClickCount(prev => prev + 1);
         setIsShaking(true);
         setTimeout(() => setIsShaking(false), 200);
       } else {
-        setEvolutionStage('flash');
-        setIsEvolution(true);
+        // [수정됨] 마지막 클릭 (10회)
+        
+        // 1. 카운트를 올려서 게이지를 꽉 채움 (9 -> 10)
+        setClickCount(prev => prev + 1);
+        
+        // 2. 버튼 잠금 (Pending 상태)
+        setIsEvolutionPending(true);
+
+        // 3. 0.5초 딜레이 후 진화 시작
         setTimeout(() => {
-          setEvolutionStage('confetti');
-          const randomCharId = CHILD_CHARACTERS[Math.floor(Math.random() * CHILD_CHARACTERS.length)];
-          const baseStats = CHILD_BASE_STATS[randomCharId];
-          
-          setCollection(prev => {
-            if (prev.includes(randomCharId)) return prev;
-            return [...prev, randomCharId];
-          });
-
-          setStats(prev => ({ 
-            ...prev, stage: 'child', characterId: randomCharId, turn: 1, maxTurn: 10,
-            r: baseStats?.r || 0, b: baseStats?.b || 0, g: baseStats?.g || 0, y: baseStats?.y || 0, minHp: 100
-          }));
-
-          setHatchStep('hatched');
-          setIsEvolution(false);
-          updateRandomSpeech();
-        }, 1000);
-        setTimeout(() => setEvolutionStage('none'), 2500);
+            setEvolutionStage('flash');
+            setIsEvolution(true);
+            
+            setTimeout(() => {
+              setEvolutionStage('confetti');
+              const randomCharId = CHILD_CHARACTERS[Math.floor(Math.random() * CHILD_CHARACTERS.length)];
+              const baseStats = CHILD_BASE_STATS[randomCharId];
+              
+              setCollection(prev => {
+                if (prev.includes(randomCharId)) return prev;
+                return [...prev, randomCharId];
+              });
+    
+              setStats(prev => ({ 
+                ...prev, stage: 'child', characterId: randomCharId, 
+                turn: 0, 
+                maxTurn: 10,
+                r: baseStats?.r || 0, b: baseStats?.b || 0, g: baseStats?.g || 0, y: baseStats?.y || 0, minHp: 100
+              }));
+    
+              setHatchStep('hatched');
+              setIsEvolution(false);
+              setIsEvolutionPending(false); // 잠금 해제
+              updateRandomSpeech();
+            }, 1000);
+            
+            setTimeout(() => setEvolutionStage('none'), 2500);
+        }, 500); // 딜레이 시간
       }
     } else if (hatchStep === 'hatched') setHatchStep('complete');
   };
 
   const handleItemClick = (item) => {
+    if (isEvolutionPending) return;
+
     setHistory(prev => ({ ...prev, items: { ...prev.items, [item.id]: (prev.items[item.id] || 0) + 1 } }));
     setStats(prev => {
       const nextHp = Math.max(0, Math.min(100, prev.hp + item.hp));
@@ -234,13 +268,11 @@ export const useGameLogic = () => {
   };
 
   const handleBasicAction = (type) => {
-    // 1. type(wash/rest)을 itemData의 ID(basic_wash/basic_sleep)로 매핑
+    if (isEvolutionPending) return;
+
     const itemId = type === 'wash' ? 'basic_wash' : 'basic_sleep';
-    
-    // 2. ITEMS 배열에서 해당 아이템 데이터를 찾음
     const itemData = ITEMS.find(item => item.id === itemId);
 
-    // 데이터가 없으면 실행 중지 (안전 장치)
     if (!itemData) {
         console.error(`Item data not found for action: ${type} (mapped to ${itemId})`);
         return;
@@ -249,7 +281,6 @@ export const useGameLogic = () => {
     setHistory(prev => ({ ...prev, actions: { ...prev.actions, [type]: (prev.actions[type] || 0) + 1 } }));
     
     setStats(prev => {
-      // 3. itemData에 정의된 수치 적용
       const changeHp = itemData.hp || 0;
       const changeClean = itemData.clean || 0;
       const changeLove = itemData.love || 0;
@@ -280,10 +311,8 @@ export const useGameLogic = () => {
     setActiveAction(null);
   };
 
-
-const handleShare = async () => {
+  const handleShare = async () => {
     const charId = stats.characterId;
-    // 캐릭터 이름 가져오기 (언어별 폴백 처리)
     const charInfo = CHARACTER_INFO[charId];
     const charName = (charInfo && charInfo.name && (charInfo.name[lang] || charInfo.name['ko'])) || "제이홉";
 
@@ -291,7 +320,6 @@ const handleShare = async () => {
     let shareText = "";
     let hashtags = "";
 
-    // 언어별 텍스트 설정
     if (lang === 'ko') {
       shareText = `내 제이홉이 [${charName}]으로 자랐어요! 💜`;
       hashtags = "호비고치,Hobigotchi,HappyHobiDay";
@@ -303,7 +331,6 @@ const handleShare = async () => {
       hashtags = "Hobigotchi,HappyHobiDay";
     }
 
-    // Level 2: 네이티브 공유 (Mobile)
     if (navigator.share) {
       try {
         await navigator.share({
@@ -311,24 +338,20 @@ const handleShare = async () => {
           text: shareText,
           url: GAME_URL,
         });
-        return; // 공유 성공 시 종료
+        return; 
       } catch (err) {
-        // 사용자가 취소하거나 에러 발생 시 트위터 폴백으로 넘어가지 않도록(선택사항) 하거나
-        // 혹은 에러 로그만 찍고 넘어갑니다.
         console.log("Native share skipped/cancelled:", err);
       }
     }
 
-    // Level 1: 트위터 공유 (PC / Fallback)
     const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}&url=${encodeURIComponent(GAME_URL)}&hashtags=${hashtags}`;
     window.open(twitterUrl, '_blank');
   };
 
-
   return {
     stats, lang, setLang, collection, hatchStep, activeAction, setActiveAction,
     clickCount, isShaking, isEvolution, evolutionStage, evolutionStep, randomSpeech,
-    endingStep,
+    endingStep, isEvolutionPending,
     showSettings, setShowSettings, showGallery, setShowGallery,
     handleHardReset, handleForceEvolution,
     handleEvolutionStart, handleEvolutionContinue, handleModalClose, 
@@ -336,63 +359,6 @@ const handleShare = async () => {
     handleNextStep, handleItemClick, handleBasicAction,
     handleShare
   };
-};
-
-// src/hooks/useGameLoader.js
-
-const useGameLoader = (imageUrls) => {
-  const [isMobile, setIsMobile] = useState(false);
-  const [showWarning, setShowWarning] = useState(false); // 경고창 띄울지 여부
-  const [startLoading, setStartLoading] = useState(false); // 로딩 시작 신호
-  const [isLoaded, setIsLoaded] = useState(false); // 로딩 완료 여부
-  const [progress, setProgress] = useState(0); // (선택사항) 로딩 진행률 0~100
-
-  // 1. 모바일인지 확인 (간단한 User Agent 체크)
-  useEffect(() => {
-    const checkMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-    setIsMobile(checkMobile);
-
-    if (checkMobile) {
-      setShowWarning(true); // 모바일이면 경고창 띄움
-    } else {
-      setStartLoading(true); // PC면 바로 로딩 시작
-    }
-  }, []);
-
-  // 2. 로딩 로직 (startLoading이 true가 되면 실행)
-  useEffect(() => {
-    if (!startLoading) return;
-    if (!imageUrls || imageUrls.length === 0) {
-      setIsLoaded(true);
-      return;
-    }
-
-    let loadedCount = 0;
-    const total = imageUrls.length;
-
-    imageUrls.forEach((src) => {
-      const img = new Image();
-      img.src = src;
-      img.onload = () => {
-        loadedCount++;
-        setProgress(Math.round((loadedCount / total) * 100));
-        if (loadedCount === total) setIsLoaded(true);
-      };
-      img.onerror = () => { // 에러나도 진행
-        loadedCount++;
-        setProgress(Math.round((loadedCount / total) * 100));
-        if (loadedCount === total) setIsLoaded(true);
-      };
-    });
-  }, [startLoading, imageUrls]);
-
-  // 사용자가 "다운로드" 버튼을 눌렀을 때 호출할 함수
-  const confirmDownload = () => {
-    setShowWarning(false);
-    setStartLoading(true);
-  };
-
-  return { isMobile, showWarning, isLoaded, progress, confirmDownload };
 };
 
 export default useGameLogic;

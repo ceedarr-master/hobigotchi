@@ -2,7 +2,7 @@ import React from 'react';
 // 컴포넌트들
 import useGameLoader from './hooks/useGameLoader';
 import useGameLogic from './hooks/useGameLogic';
-import LoadingModal from './components/LoadingModal'; // [추가] 새로 만든 컴포넌트 import
+import LoadingModal from './components/LoadingModal'; 
 import SettingsModal from './components/SettingsModal';
 import GalleryModal from './components/GalleryModal';
 import DeveloperMode from './components/DeveloperMode';
@@ -84,39 +84,28 @@ const preloadSrcList = [
 ];
 
 function App() {
-  // 1. 게임 로딩 및 데이터 경고 처리
   const { isLoaded, progress } = useGameLoader(preloadSrcList);
-  
-  // 2. 게임 로직 훅
   const game = useGameLogic();
   const t = (key) => (UI_TEXT[game.lang] && UI_TEXT[game.lang][key]) || UI_TEXT['ko'][key] || key;
-  // [수정] 로딩이 안 끝났으면 -> 심플한 로딩 화면 보여주기
+
   if (!isLoaded) {
     return <LoadingModal progress={progress} />;
   }
 
   // [테마 결정 로직]
   const getEvolutionTheme = () => {
-    // 1. 알 발견 ~ 부화 과정 (Blue)
     if (game.hatchStep !== 'complete') return EVOLUTION_THEMES.evolution_1;
-
     const currentStage = game.stats.stage;
     const isEvolutionFinished = game.evolutionStep === 'completed' || game.evolutionStep === 'modal';
 
-    // 2. 진화 완료/모달 화면일 때 -> '결과'가 아닌 '과정'의 색상을 유지
     if (isEvolutionFinished) {
-      if (currentStage === 'teen') return EVOLUTION_THEMES.evolution_2; // Child -> Teen 결과 (Purple)
-      if (currentStage === 'college') return EVOLUTION_THEMES.evolution_3; // Teen -> College 결과 (Pink)
-      
-      // [수정] 성인 단계: themeData.js의 키인 'evolution_4'를 사용
+      if (currentStage === 'teen') return EVOLUTION_THEMES.evolution_2;
+      if (currentStage === 'college') return EVOLUTION_THEMES.evolution_3;
       if (currentStage === 'adult') return EVOLUTION_THEMES.evolution_4; 
     }
 
-    // 3. 평상시 혹은 진화 진행 중 -> 다음 단계의 목표 테마
     if (currentStage === 'child') return EVOLUTION_THEMES.evolution_2;
     if (currentStage === 'teen') return EVOLUTION_THEMES.evolution_3;
-    
-    // [수정] College -> Adult 혹은 성인 상태일 때 'evolution_4' 사용
     if (currentStage === 'college') return EVOLUTION_THEMES.evolution_4;
     if (currentStage === 'adult') return EVOLUTION_THEMES.evolution_4;
 
@@ -125,38 +114,24 @@ function App() {
 
   const activeTheme = getEvolutionTheme();
 
-  // [배경 이미지]
   const getBgImage = () => {
-    // 진화 관련 화면일 때
     if (game.evolutionStep !== 'none') {
       if (game.evolutionStep === 'completed' || game.evolutionStep === 'modal') {
         return `${BG_PATH}/${activeTheme.bg_done}`;
       }
       return `${BG_PATH}/${activeTheme.bg_process}`;
     }
-
-    // 부화 직후
     if (game.hatchStep === 'hatched') return `${BG_PATH}/${EVOLUTION_THEMES.evolution_1.bg_done}`;
-    
-    // 부화 중
     if (game.hatchStep !== 'complete') return `${BG_PATH}/${EVOLUTION_THEMES.evolution_1.bg_process}`;
-    
-    // 평상시
     return `${BG_PATH}/main.svg`;
   };
 
-  // [말풍선 텍스트]
   const getSpeechText = () => {
     if (game.evolutionStep === 'ready') return game.lang === 'jp' ? "あれ？" : "오메?";
-    
     if (game.evolutionStep === 'completed') {
-       // [추가] 성인 엔딩 2단계(완료 멘트)에서는 말풍선 숨김
-       //if (game.stats.stage === 'adult' && game.endingStep === 2) return "";
-
       const charData = CHARACTER_INFO[game.stats.characterId];
       return (charData?.dialogue?.[game.lang]) || (game.lang === 'jp' ? "感謝して愛しています💜" : "감사하고 사랑합니다💜");
     }
-    
     if (game.hatchStep === 'discovery') return t('egg_greet');
     if (game.hatchStep === 'hatching_start') return t('egg_help');
     if (game.hatchStep === 'hatching_process') return game.isShaking ? t('egg_help') : t('egg_help');
@@ -164,7 +139,6 @@ function App() {
        const charData = CHARACTER_INFO[game.stats.characterId];
        return (charData?.dialogue?.[game.lang]) || t('egg_greet');
     }
-
     if (game.hatchStep === 'complete') {
       if (game.randomSpeech) return game.randomSpeech;
       const charData = CHARACTER_INFO[game.stats.characterId];
@@ -201,36 +175,37 @@ function App() {
           hatchStep={game.hatchStep} stats={game.stats} clickCount={game.clickCount} t={t}
           evolutionStep={game.evolutionStep} charInfo={CHARACTER_INFO}
           lang={game.lang} getCharName={getCharName}
-          endingStep={game.endingStep} // prop 전달
+          endingStep={game.endingStep}
         />
         
         <CharacterDisplay 
           hatchStep={game.hatchStep} stats={game.stats} isShaking={game.isShaking || game.evolutionStep === 'ready'} 
           isEvolution={game.isEvolution} speechText={getSpeechText()} 
         />
-        <div className="flex-shrink-0 h-[120px] w-full relative">
-        <InteractionArea 
-          hatchStep={game.hatchStep} evolutionStage={game.evolutionStage} activeAction={game.activeAction} 
-          ITEMS={ITEMS} ACTION_THEMES={ACTION_THEMES} 
-          onItemClick={game.handleItemClick} 
-          onActionClick={(key) => {
-            if (key === 'wash' || key === 'rest') game.handleBasicAction(key);
-            else game.setActiveAction(game.activeAction === key ? null : key);
-          }} 
-          onNextStep={game.handleNextStep} t={t} currentStage={game.stats.stage}
-          evolutionStep={game.evolutionStep} 
-          onEvolutionStart={game.handleEvolutionStart} 
-          onEvolutionContinue={game.handleEvolutionContinue}
-          lang={game.lang}
-          sysTheme={SYS_THEME} 
-          // [중요] 엔딩 관련 props 전달
-          endingStep={game.endingStep} 
-          onEndingNext={game.handleEndingNext}
-          onRestart={game.handleHardReset}
-          // 공유 핸들러 전달
-          onShare={game.handleShare}
-        />
+        
+        {/* [수정] 대기 상태일 때(isEvolutionPending) 투명도 0, 클릭 방지 */}
+        <div className={`flex-shrink-0 h-[120px] w-full relative transition-opacity duration-300 ${game.isEvolutionPending ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}>
+          <InteractionArea 
+            hatchStep={game.hatchStep} evolutionStage={game.evolutionStage} activeAction={game.activeAction} 
+            ITEMS={ITEMS} ACTION_THEMES={ACTION_THEMES} 
+            onItemClick={game.handleItemClick} 
+            onActionClick={(key) => {
+              if (key === 'wash' || key === 'rest') game.handleBasicAction(key);
+              else game.setActiveAction(game.activeAction === key ? null : key);
+            }} 
+            onNextStep={game.handleNextStep} t={t} currentStage={game.stats.stage}
+            evolutionStep={game.evolutionStep} 
+            onEvolutionStart={game.handleEvolutionStart} 
+            onEvolutionContinue={game.handleEvolutionContinue}
+            lang={game.lang}
+            sysTheme={SYS_THEME} 
+            endingStep={game.endingStep} 
+            onEndingNext={game.handleEndingNext}
+            onRestart={game.handleHardReset}
+            onShare={game.handleShare}
+          />
         </div>
+
         <SettingsModal isOpen={game.showSettings} onClose={() => game.setShowSettings(false)} t={t} lang={game.lang} onLangChange={game.setLang} />
         <GalleryModal 
           isOpen={game.showGallery} 

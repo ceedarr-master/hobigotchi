@@ -68,7 +68,7 @@ const InfoSection = ({ hatchStep, stats, clickCount, t, evolutionStep, charInfo,
       ) : hatchStep === 'complete' ? (
         <StatGroup stats={stats} t={t} isHatching={false} />
       ) : (
-        <div className="px-5"><Dialog>{t(hatchStep)}</Dialog></div>
+        <div className="px-0"><Dialog>{t(hatchStep)}</Dialog></div>
       )}
     </div>
   );
