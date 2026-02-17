@@ -42,7 +42,7 @@ export const ButtonL = ({ label, icon, onClick }) => (
 export const ButtonM = ({ label, icon, theme, onClick, isActive }) => (
   <button 
     onClick={onClick}
-    className={`${baseStyle} w-20 h-20 flex-col gap-1 justify-center border-[3px] rounded-[20px]
+    className={`${baseStyle} w-18 h-18 flex-col gap-1 justify-center border-[3px] rounded-[20px]
     ${theme.border} 
     ${isActive 
         ? `${theme.bgPressed} translate-y-[8px] shadow-none` // [수정] bgPressed 적용
