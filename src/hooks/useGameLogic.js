@@ -157,7 +157,6 @@ export const useGameLogic = () => {
     else if (stats.stage === 'teen') nextStage = 'college';
     else if (stats.stage === 'college') nextStage = 'adult';
 
-
     setCollection(prev => {
       if (prev.includes(nextCharId)) return prev;
       return [...prev, nextCharId];
@@ -165,11 +164,23 @@ export const useGameLogic = () => {
 
     setTimeout(() => {
       setEvolutionStage('confetti'); 
-      
-      let nextStage = '';
-      if (stats.stage === 'child') nextStage = 'teen';
-      else if (stats.stage === 'teen') nextStage = 'college';
-      else if (stats.stage === 'college') nextStage = 'adult';
+      const charName = CHARACTER_INFO[nextCharId]?.name?.ko || nextCharId;
+
+      // 2. 진화 완료 이벤트 전송 (이게 없어서 안 떴던 것!)
+      console.log(`🚀 진화 이벤트 전송: ${charName} (${nextCharId})`);
+      ReactGA.event("evolution_complete", {
+        character_id: nextCharId, 
+        character_name: charName, 
+        stage: nextStage          
+      });
+
+      // 3. 성인이면 게임 클리어 이벤트 전송
+      if (nextStage === 'adult') {
+        ReactGA.event("game_clear", {
+          final_character: charName,
+          final_id: nextCharId
+        });
+      }
       
       setStats(prev => ({ 
         ...prev, 
