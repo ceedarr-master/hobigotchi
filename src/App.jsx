@@ -127,6 +127,7 @@ function App() {
   };
 
   const getSpeechText = () => {
+    if (game.evolutionStep === 'process') return "";
     if (game.evolutionStep === 'ready') return game.lang === 'jp' ? "あれ？" : "오메?";
     if (game.evolutionStep === 'completed') {
       const charData = CHARACTER_INFO[game.stats.characterId];
