@@ -3,32 +3,32 @@ const ICON_BASE = "/assets/icons";
 export const ITEMS = [
     // --- FOOD: SNACK (간식) ---
     {
-      id: 'f_snickers', type: 'food', group: 'snack', icon: `${ICON_BASE}/cupcake.svg`,
+      id: 'f_snickers', type: 'food', group: 'snack', icon: `${ICON_BASE}/apple.svg`,
       ko: '스니커즈', en: 'Snickers', jp: 'スニーカー',
       r: 2, g: 0, b: 0, y: 0, hp: 10, clean: -2, love: 2, unlock: 1
     },
     {
-      id: 'f_fries', type: 'food', group: 'snack', icon: `${ICON_BASE}/cupcake.svg`,
+      id: 'f_fries', type: 'food', group: 'snack', icon: `${ICON_BASE}/apple.svg`,
       ko: '감자튀김', en: 'French fries', jp: 'フライドポテト',
       r: 0, g: 4, b: -2, y: 0, hp: 20, clean: -5, love: 0, unlock: 1
     },
     {
-      id: 'f_banana', type: 'food', group: 'snack', icon: `${ICON_BASE}/cupcake.svg`,
+      id: 'f_banana', type: 'food', group: 'snack', icon: `${ICON_BASE}/apple.svg`,
       ko: '바나나', en: 'Banana', jp: 'バナナ',
       r: 0, g: 2, b: 0, y: 0, hp: 15, clean: 0, love: 2, unlock: 1
     },
     {
-      id: 'f_apple', type: 'food', group: 'snack', icon: `${ICON_BASE}/cupcake.svg`,
+      id: 'f_apple', type: 'food', group: 'snack', icon: `${ICON_BASE}/apple.svg`,
       ko: '사과', en: 'Apple', jp: 'りんご',
       r: 0, g: 5, b: 0, y: 0, hp: 10, clean: 2, love: 5, unlock: 2
     },
     {
-      id: 'f_strawberry', type: 'food', group: 'snack', icon: `${ICON_BASE}/cupcake.svg`,
+      id: 'f_strawberry', type: 'food', group: 'snack', icon: `${ICON_BASE}/strawberry.svg`,
       ko: '딸기', en: 'Strawberry', jp: 'イチゴ',
       r: 0, g: 8, b: 0, y: 2, hp: 10, clean: -5, love: 10, unlock: 2
     },
     {
-      id: 'f_drink', type: 'food', group: 'snack', icon: `${ICON_BASE}/cupcake.svg`,
+      id: 'f_drink', type: 'food', group: 'snack', icon: `${ICON_BASE}/wine.svg`,
       ko: '술', en: 'Booze', jp: 'お酒',
       r: -5, g: 15, b: -15, y: 0, hp: -30, clean: -10, love: 20, unlock: 3
     },
@@ -40,12 +40,12 @@ export const ITEMS = [
       r: 5, g: 2, b: 10, y: 5, hp: 5, clean: -5, love: 0, unlock: 2
     },
     {
-      id: 'f_mintchoco', type: 'food', group: 'dessert', icon: `${ICON_BASE}/cookie.svg`,
+      id: 'f_mintchoco', type: 'food', group: 'dessert', icon: `${ICON_BASE}/snow.svg`,
       ko: '민트초코아이스크림', en: 'Mint Chocolate Ice Cream', jp: 'ミントチョコアイスクリーム',
       r: -5, g: 7, b: 0, y: 2, hp: 5, clean: -5, love: 5, unlock: 1
     },
     {
-      id: 'f_cake', type: 'food', group: 'dessert', icon: `${ICON_BASE}/cookie.svg`,
+      id: 'f_cake', type: 'food', group: 'dessert', icon: `${ICON_BASE}/cake.svg`,
       ko: '케이크', en: 'Cake', jp: 'ケーキ',
       r: -5, g: 11, b: 0, y: 5, hp: 10, clean: -10, love: 5, unlock: 1
     },
@@ -55,7 +55,7 @@ export const ITEMS = [
       r: -5, g: 10, b: 0, y: 12, hp: 5, clean: -5, love: 10, unlock: 3
     },
      {
-      id: 'f_tart', type: 'food', group: 'dessert', icon: `${ICON_BASE}/cookie.svg`,
+      id: 'f_tart', type: 'food', group: 'dessert', icon: `${ICON_BASE}/cake.svg`,
       ko: '자몽타르트', en: 'Grapefruit tart', jp: 'グレープフルーツタルト',
       r: -5, g: 10, b: 0, y: 12, hp: 10, clean: -5, love: 15, unlock: 1
     },
@@ -127,9 +127,9 @@ export const ITEMS = [
   
     // --- ACTIVITY: COMMUNICATION (소통) ---
     {
-      id: 'a_live', type: 'activity', group: 'communication', icon: `${ICON_BASE}/chat-dots.svg`,
+      id: 'a_live', type: 'activity', group: 'communication', icon: `${ICON_BASE}/tv.svg`,
       ko: '라방 켜기', en: 'weverse live', jp: 'ラバンオン',
-      r: 5, g: 15, b: 0, y: 5, hp: -15, clean: -5, love: 15, unlock: 2
+      r: 5, g: 15, b: 0, y: 10, hp: -15, clean: -5, love: 15, unlock: 2
     },
     {
       id: 'a_kakao', type: 'activity', group: 'communication', icon: `${ICON_BASE}/chat-dots.svg`,
@@ -137,31 +137,22 @@ export const ITEMS = [
       r: 3, g: 10, b: 5, y: 5, hp: -5, clean: -5, love: 15, unlock: 1
     },
     {
-      id: 'a_reply', type: 'activity', group: 'communication', icon: `${ICON_BASE}/chat-dots.svg`,
+      id: 'a_reply', type: 'activity', group: 'communication', icon: `${ICON_BASE}/message-reply.svg`,
       ko: '위버스 댓글달기', en: 'Leave a comment on Weverse', jp: 'ウィーバースコメント',
-      r: 1, g: 12, b: 6, y: 8, hp: -10, clean: -5, love: 20, unlock: 1
+      r: 1, g: 12, b: 6, y: 12, hp: -10, clean: -5, love: 20, unlock: 1
     },
         {
-      id: 'a_instagram', type: 'activity', group: 'communication', icon: `${ICON_BASE}/chat-dots.svg`,
+      id: 'a_instagram', type: 'activity', group: 'communication', icon: `${ICON_BASE}/brand-instagram.svg`,
       ko: '인스스 올리기', en: 'Upload Instagram Story ', jp: 'ウィーバースコメント',
       r: 5, g: 10, b: 5, y: 10, hp: -15, clean: -5, love: 8, unlock: 2
     },
   
     // --- ACTIVITY: SELF-DEVELOPMENT (자기계발) ---
-    {
-      id: 'a_monitor', type: 'activity', group: 'self-development', icon: `${ICON_BASE}/book-open.svg`,
-      ko: '모니터링', en: 'Monitoring', jp: 'モニタリング',
-      r: 5, g: 0, b: 9, y: 5, hp: -10, clean: -2, love: -5, unlock: 1
-    },
+    
     {
       id: 'a_english', type: 'activity', group: 'self-development', icon: `${ICON_BASE}/book-open.svg`,
       ko: '영어공부', en: 'English study', jp: '英語勉強',
       r: 2, g: 1, b: 15, y: 5, hp: -30, clean: -5, love: -35, unlock: 1
-    },
-    {
-      id: 'a_idea', type: 'activity', group: 'self-development', icon: `${ICON_BASE}/book-open.svg`,
-      ko: '영감떠올리기', en: 'Inspiration', jp: 'インスピレーションを思い出す',
-      r: 0, g: 8, b: 8, y: 8, hp: -5, clean: -5, love: 15, unlock: 3
     },
     {
       id: 'a_book', type: 'activity', group: 'self-development', icon: `${ICON_BASE}/book-open.svg`,
@@ -171,12 +162,12 @@ export const ITEMS = [
   
     // --- ACTIVITY: HOBBY (취미) ---
     {
-      id: 'a_clean', type: 'activity', group: 'self-development', icon: `${ICON_BASE}/puzzle.svg`,
+      id: 'a_clean', type: 'activity', group: 'self-development', icon: `${ICON_BASE}/trash-one.svg`,
       ko: '작업실 청소하기', en: 'Cleaning the studio', jp: '作業室の清掃',
       r: 10, g: 0, b: 3, y: 0, hp: -15, clean: -20, love: -15, unlock: 2
     },
     {
-      id: 'a_shop', type: 'activity', group: 'hobby', icon: `${ICON_BASE}/puzzle.svg`,
+      id: 'a_shop', type: 'activity', group: 'hobby', icon: `${ICON_BASE}/shopping-bag.svg`,
       ko: '쇼핑', en: 'shopping', jp: 'ショッピング',
       r: 9, g: 5, b: 7, y: 12, hp: -15, clean: -15, love: 10, unlock: 2
     },
@@ -186,12 +177,12 @@ export const ITEMS = [
       r: 5, g: 6, b: 2, y: 12, hp: -20, clean: -10, love: 5, unlock: 2
     },
     {
-      id: 'a_exhibit', type: 'activity', group: 'hobby', icon: `${ICON_BASE}/puzzle.svg`,
+      id: 'a_exhibit', type: 'activity', group: 'hobby', icon: `${ICON_BASE}/image-rectangle.svg`,
       ko: '전시회 관람', en: 'Visiting the exhibition', jp: '展示会観覧',
       r: 3, g: 7, b: 5, y: 8, hp: -30, clean: -3, love: 5, unlock: 3
     },
     {
-      id: 'a_selfie', type: 'activity', group: 'hobby', icon: `${ICON_BASE}/puzzle.svg`,
+      id: 'a_selfie', type: 'activity', group: 'hobby', icon: `${ICON_BASE}/camera.svg`,
       ko: '셀카찍기', en: 'Taking a selfie', jp: '自分撮り',
       r: 2, g: 8, b: 5, y: 10, hp: -5, clean: -5, love: 8, unlock: 1
     },
@@ -200,20 +191,26 @@ export const ITEMS = [
       ko: '멍때리기', en: 'dazing off', jp: '叩く',
       r: 0, g: 5, b: 8, y: 0, hp: 10, clean: -5, love: -2, unlock: 3
     },
+    {
+      id: 'a_soccer', type: 'activity', group: 'training', icon: `${ICON_BASE}/controller.svg`,
+      ko: '축구게임', en: 'soccer game', jp: 'サッカーゲーム',
+      r: 3, g: 1, b: 5, y: 3, hp: -5, clean: -5, love: -15, unlock: 2
+    },
+  
   
     // --- ACTIVITY: TRAINING (트레이닝) ---
     {
-      id: 'a_dance', type: 'activity', group: 'training', icon: `${ICON_BASE}/workout.svg`,
+      id: 'a_dance', type: 'activity', group: 'training', icon: `${ICON_BASE}/music.svg`,
       ko: '안무연습', en: 'choreography practice', jp: '振付練習',
       r: 12, g: 4, b: 8, y: 8, hp: -30, clean: -30, love: 10, unlock: 1
     },
     {
-      id: 'a_vocal', type: 'activity', group: 'training', icon: `${ICON_BASE}/workout.svg`,
+      id: 'a_vocal', type: 'activity', group: 'training', icon: `${ICON_BASE}/music.svg`,
       ko: '보컬/랩연습', en: 'vocal/rap practice', jp: '声楽練習',
       r: 10, g: 4, b: 8, y: 8, hp: -20, clean: -30, love: 10, unlock: 1
     },
     {
-      id: 'a_tennis', type: 'activity', group: 'training', icon: `${ICON_BASE}/workout.svg`,
+      id: 'a_tennis', type: 'activity', group: 'training', icon: `${ICON_BASE}/baseball.svg`,
       ko: '테니스', en: 'tennis', jp: 'テニス',
       r: 10, g: 2, b: 4, y: 5, hp: -35, clean: -20, love: 4, unlock: 2
     },
@@ -223,9 +220,14 @@ export const ITEMS = [
       r: 10, g: 0, b: 2, y: 2, hp: -25, clean: -20, love: 2, unlock: 3
     },
     {
-      id: 'a_soccer', type: 'activity', group: 'training', icon: `${ICON_BASE}/workout.svg`,
-      ko: '축구게임', en: 'soccer game', jp: 'サッカーゲーム',
-      r: 3, g: 1, b: 5, y: 3, hp: -5, clean: -5, love: -15, unlock: 2
+      id: 'a_idea', type: 'activity', group: 'self-development', icon: `${ICON_BASE}/chart-bubble.svg`,
+      ko: '영감떠올리기', en: 'Inspiration', jp: 'インスピレーションを思い出す',
+      r: 0, g: 8, b: 15, y: 8, hp: -5, clean: -5, love: 15, unlock: 3
+    },
+    {
+      id: 'a_monitor', type: 'activity', group: 'self-development', icon: `${ICON_BASE}/workout.svg`,
+      ko: '모니터링', en: 'Monitoring', jp: 'モニタリング',
+      r: 5, g: 0, b: 9, y: 5, hp: -10, clean: -2, love: -5, unlock: 1
     },
   
     // --- BASIC ACTIONS (기본) ---

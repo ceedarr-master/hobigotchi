@@ -64,7 +64,7 @@ export const ButtonS = ({ label, icon, theme, onClick }) => (
   >
     {/* 위 줄에서 theme.shadow_s 를 적용했습니다 (기존 하드코딩 제거) */}
     <span className="text-hobi-base font-bold">{label}</span>
-    <img src={icon} alt="" className="w-6 h-6 object-contain" />
+    <img src={icon} alt="" className="w-5 h-5 object-contain" />
   </button>
 );
 
