@@ -149,11 +149,6 @@ export const ITEMS = [
   
     // --- ACTIVITY: SELF-DEVELOPMENT (자기계발) ---
     {
-      id: 'a_clean', type: 'activity', group: 'self-development', icon: `${ICON_BASE}/book-open.svg`,
-      ko: '작업실 청소하기', en: 'Cleaning the studio', jp: '作業室の清掃',
-      r: 10, g: 0, b: 3, y: 0, hp: -15, clean: -20, love: -15, unlock: 2
-    },
-    {
       id: 'a_monitor', type: 'activity', group: 'self-development', icon: `${ICON_BASE}/book-open.svg`,
       ko: '모니터링', en: 'Monitoring', jp: 'モニタリング',
       r: 5, g: 0, b: 9, y: 5, hp: -10, clean: -2, love: -5, unlock: 1
@@ -168,8 +163,18 @@ export const ITEMS = [
       ko: '영감떠올리기', en: 'Inspiration', jp: 'インスピレーションを思い出す',
       r: 0, g: 8, b: 8, y: 8, hp: -5, clean: -5, love: 15, unlock: 3
     },
+    {
+      id: 'a_book', type: 'activity', group: 'self-development', icon: `${ICON_BASE}/book-open.svg`,
+      ko: '책읽기', en: 'Book reading', jp: '読書',
+      r: 0, g: 8, b: 15, y: 1, hp: -5, clean: -5, love: 15, unlock: 2
+    },
   
     // --- ACTIVITY: HOBBY (취미) ---
+    {
+      id: 'a_clean', type: 'activity', group: 'self-development', icon: `${ICON_BASE}/puzzle.svg`,
+      ko: '작업실 청소하기', en: 'Cleaning the studio', jp: '作業室の清掃',
+      r: 10, g: 0, b: 3, y: 0, hp: -15, clean: -20, love: -15, unlock: 2
+    },
     {
       id: 'a_shop', type: 'activity', group: 'hobby', icon: `${ICON_BASE}/puzzle.svg`,
       ko: '쇼핑', en: 'shopping', jp: 'ショッピング',

@@ -263,6 +263,7 @@ export const EVOLUTION_RULES = {
   to_teen: [
     { id: 'teen_tear', priority: 3, condition: (s) => get1st(s) === 'g' && s.g >= 70 }, // 감성 풍부 (울보 기질)
     { id: 'teen_teengirl', priority: 2, condition: (s) => get1st(s) === 'g' && get2nd(s) === 'y' }, // G 1위 + Y 2위    
+    { id: 'teen_acorn', priority: 99, condition: () => true },    
     { id: 'teen_660660', priority: 1, condition: (s, h) => (h.actions['a_selfie'] || 0) >= 7 }, // [특수조건]셀카(photo) 7회
     { id: 'teen_acorn', priority: 2, condition: (s) => s.g >= 80 }, // 감성 80
     { id: 'teen_blueberry', priority: 2, condition: (s, h) => get1st(s) === 'y' && (h.actions['a_live'] + (h.actions['a_kakao']||0) + (h.actions['a_reply']||0) + (h.actions['a_instagram']||0)) < 5 },    
@@ -283,6 +284,7 @@ export const EVOLUTION_RULES = {
     { id: 'college_street', priority: 1, condition: (s, h) => s.y >= 20 && ((h.items['f_chicken'] || 0) + (h.items['f_noodle'] || 0)) >= 5 }, // [특수조건]닭칼국수/치킨 5회
     { id: 'college_swan', priority: 1, condition: (s, h) => ((h.items['f_chicken'] || 0) + (h.items['f_noodle'] || 0)) === 0 },// [특수조건]치킨 0회 (금식)
     { id: 'college_thorn', priority: 1, condition: (s) => s.hp <= 50 && get1st(s) === 'b' && get2nd(s) === 'r' }, // [특수조건]체력50이하 + B 1위 + R 2위    
+    { id: 'college_bambi', priority: 99, condition: () => true }
   ],
 
 // 3. College -> Adult
@@ -313,6 +315,7 @@ export const EVOLUTION_RULES = {
     { id: 'adult_tired', priority: 1, condition: (s) => s.hp < 10 }, // 체력 10 미만
     { id: 'adult_trainer', priority: 1, condition: (s, h) => (h.actions['a_abs'] || 0) >= 15}, // 복근운동(training) 15회 
     { id: 'adult_wet', priority: 4, condition: (s) => get1st(s) === 'r' && get2nd(s) === 'y' }, // 1위 R, 2위 Y
+    { id: 'adult_brooklyn', priority: 99, condition: () => true } //fallback
   ]
 };
 
