@@ -265,58 +265,87 @@ export const EVOLUTION_RULES = {
 
   // 1. Child -> Teen
   to_teen: [
-    { id: 'teen_tear', priority: 3, condition: (s) => get1st(s) === 'g' && s.g >= 70 }, // 감성 풍부 (울보 기질)
-    { id: 'teen_teengirl', priority: 2, condition: (s) => get1st(s) === 'g' && get2nd(s) === 'y' }, // G 1위 + Y 2위    
-    { id: 'teen_660660', priority: 1, condition: (s, h) => (h.actions['a_selfie'] || 0) >= 4 }, // [특수조건]셀카(photo) 4회
-    { id: 'teen_acorn', priority: 2, condition: (s) => s.g >= 80 }, // 감성 80
-    { id: 'teen_blueberry', priority: 2, condition: (s, h) => get1st(s) === 'y' && (h.actions['a_live'] + (h.actions['a_kakao']||0) + (h.actions['a_reply']||0) + (h.actions['a_instagram']||0)) < 5 },    
-    { id: 'teen_cherry', priority: 3, condition: (s) => get1st(s) === 'y' }, // Y 1위
-    { id: 'teen_chick', priority: 1, condition: (s) => s.hp < 30 }, // 체력 낮음 (30 미만 기준)
+    // [P1] 구체적인 행동 조건 (우선순위 높음)
+    { id: 'teen_660660', priority: 1, condition: (s, h) => (h.actions['a_selfie'] || 0) >= 4 },
     { id: 'teen_cottoncandy', priority: 1, condition: (s, h) => ((h.items['f_coffee'] || 0) + (h.items['f_tart'] || 0) + (h.items['f_mintchoco'] || 0) + (h.items['f_cake'] || 0) + (h.items['f_dubai'] || 0)) >= 5 }, // [특수조건]디저트 5회
-    { id: 'teen_internetboy', priority: 1, condition: (s, h) => isOnlySpecificActions(h, ['a_live', 'a_reply', 'a_instagram'], ['basic_wash', 'basic_sleep']) },   //인터넷광
-    { id: 'teen_run', priority: 3, condition: (s, h) => s.hp >= 70 || ((h.actions['a_dance'] || 0) + (h.actions['a_vocal'] || 0)) >= 5 } // 체력이 70 이상(에너제틱) 이거나, 연습(training)을 5회 이상 함 (달려라 홉!)
+
+    // [수정] 인터넷보이: 10턴 중 과반수(5회) 이상 SNS 활동 시
+    { id: 'teen_internetboy', priority: 1, condition: (s, h) => (h.actions['a_live']||0) + (h.actions['a_reply']||0) + (h.actions['a_instagram']||0) >= 5 },//인터넷광
+    { id: 'teen_chick', priority: 1, condition: (s) => s.hp < 30 },
+
+    // [P2] 스탯 조건
+    { id: 'teen_teengirl', priority: 2, condition: (s) => get1st(s) === 'g' && get2nd(s) === 'y' }, // G 1위 + Y 2위
+    { id: 'teen_acorn', priority: 2, condition: (s) => s.g >= 80 },
+    { id: 'teen_blueberry', priority: 2, condition: (s, h) => get1st(s) === 'y' && (h.actions['a_live']||0) + (h.actions['a_kakao']||0) + (h.actions['a_instagram']||0) + (h.actions['a_reply']||0) < 5 },
+
+    // [P3] 넓은 범위 조건 (마지막 방어선)
+    { id: 'teen_tear', priority: 3, condition: (s) => get1st(s) === 'g' && s.g >= 70 }, // 감성 풍부 (울보 기질)
+    { id: 'teen_cherry', priority: 3, condition: (s) => get1st(s) === 'y' },
+    { id: 'teen_run', priority: 3, condition: (s, h) => s.hp >= 85 || ((h.actions['a_dance'] || 0) + (h.actions['a_vocal'] || 0)) >= 5 } // 체력이 70 이상(에너제틱) 이거나, 연습(training)을 5회 이상 함 (달려라 홉!)
   ],
 
 // 2. Teen -> College
   to_college: [
-    { id: 'college_bambi', priority: 2, condition: (s) => get1st(s) === 'b' && get2nd(s) === 'y' }, // B 1위 + Y 2위 (원문 센스 2위 추정)
-    { id: 'college_butter', priority: 4, condition: (s) => get1st(s) === 'y' && get4th(s) === 'b' }, // 1위 Y, 위 B
-    { id: 'college_emo', priority: 3, condition: (s) => get1st(s) === 'b' && getStatGap(s) > 20 }, // B 압도적 (차이 20 이상)
-    { id: 'college_explorer', priority: 4, condition: (s) => s.clean < 20 }, // 청결 20 미만
-    { id: 'college_satto', priority: 3, condition: (s) => get1st(s) === 'b' }, // B 1위
-    { id: 'college_street', priority: 1, condition: (s, h) => s.y >= 10 && ((h.items['f_chicken'] || 0) + (h.items['f_noodle'] || 0)) >= 5 }, // [특수조건]닭칼국수/치킨 5회
-    { id: 'college_swan', priority: 1, condition: (s, h) => ((h.items['f_chicken'] || 0) + (h.items['f_noodle'] || 0)) === 0 },// [특수조건]치킨 0회 (금식)
-    { id: 'college_thorn', priority: 1, condition: (s) => s.hp <= 50 && get1st(s) === 'b' && get2nd(s) === 'r' }, // [특수조건]체력50이하 + B 1위 + R 2위    
+    // [P1] 특수 행동/상태
+    { id: 'college_street', priority: 1, condition: (s, h) => s.y >= 10 && ((h.items['f_chicken'] || 0) + (h.items['f_noodle'] || 0)) >= 4 }, // [특수조건]닭칼국수/치킨 4회
+    { id: 'college_swan', priority: 1, condition: (s, h) => get1st(s) === 'b' && ((h.items['f_chicken'] || 0) + (h.items['f_noodle'] || 0)) === 0 },//b 1위
+    // [수정] 가시홉: 체력 60 이하 & 지성 1위 (예민하고 똑똑함)
+    { id: 'college_thorn', priority: 1, condition: (s) => s.hp <= 60 && get1st(s) === 'b' },
+
+    // [P2] 스탯 조합
+    { id: 'college_bambi', priority: 2, condition: (s) => get1st(s) === 'b' && get2nd(s) === 'y' },
+    // [수정] 꼬질홉: 청결도 30 미만 (적당히 더러움)
+    { id: 'college_explorer', priority: 2, condition: (s) => s.clean < 30 },
+
+    // [P3, P4] 나머지
+    { id: 'college_emo', priority: 3, condition: (s) => get1st(s) === 'b' && getStatGap(s) > 20 },// B 압도적 (차이 20 이상)
+    { id: 'college_satto', priority: 3, condition: (s) => get1st(s) === 'b' },// B 1위
+    { id: 'college_butter', priority: 4, condition: (s) => get1st(s) === 'y' && get4th(s) === 'b' },// 1위 R, 위 B
   ],
 
 // 3. College -> Adult
   to_adult: [
-    { id: 'adult_apple', priority: 1, condition: (s, h) => (h.items['f_apple'] || 0) >= 10 }, // 사과 15개
-    { id: 'adult_baseball', priority: 4, condition: (s) => get1st(s) === 'r' && get2nd(s) === 'g' }, // 1위 R, 2위 G
-    { id: 'adult_brooklyn', priority: 3, condition: (s) => get1st(s) === 'r' && getStatGap(s) > 20 }, // R 압도적
+    // --- [Priority 1: 구체적 행동/수집] (Soldier보다 위에 있어야 함) ---
+    // 1. 딸기/사과/커피 등 아이템 수집
+    { id: 'adult_strawberry', priority: 1, condition: (s, h) => (h.items['f_strawberry'] || 0) >= 8 }, // 딸기 8회
+    { id: 'adult_apple', priority: 1, condition: (s, h) => (h.items['f_apple'] || 0) >= 7 }, // 사과 7개
     { id: 'adult_cafe', priority: 1, condition: (s, h) => get4th(s) === 'b' && (h.items['f_coffee'] || 0) >= 8 }, // 지성 4위 + 아메리카노 8회
-    { id: 'adult_crown', priority: 1, condition: (s, h) => (h.actions['a_kakao'] || 0) >= 10 }, // 멤버 카톡(talk) 15회
-    { id: 'adult_cry', priority: 4, condition: (s) => get1st(s) === 'g' && getStatGap(s) > 120 }, // G 압도적
-    { id: 'adult_dad', priority: 4, condition: (s) => get1st(s) === 'b' && get2nd(s) === 'y' }, // 1위 B, 2위 Y
-    { id: 'adult_diva', priority: 1, condition: (s, h) => get1st(s) === 'y' && (h.actions['a_instagram'] || 0) >= 10 },// Y 1위 + sns 10회
-    { id: 'adult_flower', priority: 3, condition: (s) => get1st(s) === 'g' && get2nd(s) === 'y' }, // 1위 G, 2위 Y
-    { id: 'adult_fragile', priority: 4, condition: (s) => get1st(s) === 'b' && get2nd(s) === 'r' }, // 1위 B, 2위 R
-    { id: 'adult_groom', priority: 1, condition: (s) => getStatGap(s) <= 10 && s.hp >= 90 && s.clean >= 90 && s.love >= 90 }, // 남편 홉
-    { id: 'adult_hat', priority: 1, condition: (s, h) => (h.actions['a_shop'] || 0) >= 8 }, // 모자(쇼핑) 6회
-    { id: 'adult_iampet', priority: 4, condition: (s) => s.love >= 200 }, // 감성 MAX
-    { id: 'adult_lvprince', priority: 4, condition: (s) => get1st(s) === 'y' && get2nd(s) === 'r' }, // 1위 Y, 2위 R
-    { id: 'adult_lvprincess', priority: 3, condition: (s) => get1st(s) === 'y' && getStatGap(s) > 20 }, // Y 압도적
+    // 2. 행동 반복 (운동, 청소, 쇼핑 등)
+    { id: 'adult_trainer', priority: 1, condition: (s, h) => (h.actions['a_abs'] || 0) >= 6 }, // 복근왕 (이제 Soldier한테 안 먹힘)
     { id: 'adult_maid', priority: 1, condition: (s, h) => (h.actions['a_clean'] || 0) >= 8 }, // 청소 8회
-    { id: 'adult_mum', priority: 1,  condition: (s, h) => get1st(s) === 'b' && (h.actions['a_shop'] || 0) >= 5 && (h.actions['a_english'] || 0) >= 3 },// B 1위 + 쇼핑5 + 영어3
-    { id: 'adult_revolve', priority: 2, condition: () => Math.random() < 0.01 }, // [랜덤] 회귀 (1% 확률) - 우선순위 높음
-    { id: 'adult_rockstar', priority: 1, condition: (s, h) => isOnlySpecificActions(h, ['a_monitor', 'a_dance', 'a_vocal', 'a_idea'], ['basic_wash', 'basic_sleep'])},  // 연습벌레
-    { id: 'adult_soldier', priority: 1, condition: (s) => s.minHp >= 60 }, // 특급전사 (hp기록 필요)
-    { id: 'adult_soldierprincess', priority: 1, condition: (s) => s.minHp >= 30 && get1st(s) === 'g' }, // 특급전사공주 (hp기록 필요)
-    { id: 'adult_stage', priority: 1, condition: (s) => getStatGap(s) <= 5 && s.hp <= 50 && s.love >= 100 }, // 균등스탯 + 체력50이하 + 감성MAX
-    { id: 'adult_strawberry', priority: 1, condition: (s, h) => (h.items['f_strawberry'] || 0) >= 10 }, // 딸기 15회
-    { id: 'adult_tired', priority: 1, condition: (s) => s.hp < 10 }, // 체력 10 미만
-    { id: 'adult_trainer', priority: 1, condition: (s, h) => (h.actions['a_abs'] || 0) >= 6 }, // 복근운동(training) 6회 
-    { id: 'adult_wet', priority: 4, condition: (s) => get1st(s) === 'r' && get2nd(s) === 'y' }, // 1위 R, 2위 Y
+    { id: 'adult_hat', priority: 1, condition: (s, h) => (h.actions['a_shop'] || 0) >= 6 }, // 모자(쇼핑) 6회
+    { id: 'adult_mum', priority: 1,  condition: (s, h) => get1st(s) === 'b' && (h.actions['a_shop'] || 0) >= 3 && (h.actions['a_english'] || 0) >= 3 },// B 1위 + 쇼핑3 + 영어3
+    { id: 'adult_crown', priority: 1, condition: (s, h) => (h.actions['a_kakao'] || 0) >= 10 }, // 멤버 카톡(talk) 15회
+    { id: 'adult_diva', priority: 1, condition: (s, h) => get1st(s) === 'y' && (h.actions['a_instagram'] || 0) >= 6 },// Y 1위 + sns 6회
+    { id: 'adult_rockstar', priority: 1, condition: (s, h) => ((h.actions['a_monitor']||0) + (h.actions['a_dance']||0) + (h.actions['a_vocal']||0) + (h.actions['a_idea']||0)) >= 12 },
+
+    // 상태 이상 (우선순위 높음)
+    { id: 'adult_tired', priority: 1, condition: (s) => s.hp < 10 },
+    { id: 'adult_soldierprincess', priority: 1, condition: (s) => s.minHp >= 30 && get1st(s) === 'g' },// 특급전사공주 (hp기록 필요)
+
+    // --- [Priority 2: 구체적 스탯 조합] (승격됨!) ---
+    { id: 'adult_baseball', priority: 4, condition: (s) => get1st(s) === 'r' && get2nd(s) === 'g' },// 1위 R, 2위 G
+    { id: 'adult_wet', priority: 4, condition: (s) => get1st(s) === 'r' && get2nd(s) === 'y' },// 1위 R, 2위 Y
+    { id: 'adult_fragile', priority: 4, condition: (s) => get1st(s) === 'b' && get2nd(s) === 'r' },// 1위 B, 2위 R
+    { id: 'adult_flower', priority: 3, condition: (s) => get1st(s) === 'g' && get2nd(s) === 'y' },// 1위 G, 2위 Y
+    { id: 'adult_lvprincess', priority: 3, condition: (s) => get1st(s) === 'y' && getStatGap(s) > 20 },// Y 압도적
+    { id: 'adult_dad', priority: 4, condition: (s) => get1st(s) === 'b' && get2nd(s) === 'y' },// 1위 B, 2위 Y
+
+    { id: 'adult_revolve', priority: 2, condition: () => Math.random() < 0.005 },// [랜덤] 회귀 (0.5% 확률) - 우선순위 높음
+
+// --- [Priority 3: 스탯 격차 (Gap)] ---
+    // 구체적인 조합(P2)에 실패했지만, 특정 스탯이 압도적일 때
+    { id: 'adult_brooklyn', priority: 3, condition: (s) => get1st(s) === 'r' && getStatGap(s) > 20 },// R 압도적
+    { id: 'adult_lvprince', priority: 4, condition: (s) => get1st(s) === 'y' && get2nd(s) === 'r' },// 1위 Y, 2위 R
+    { id: 'adult_stage', priority: 1, condition: (s) => getStatGap(s) <= 15 && s.hp <= 60 && s.love >= 100 },// 균등스탯 + 체력60이하 + 감성MAX
+    { id: 'adult_groom', priority: 1, condition: (s) => getStatGap(s) <= 10 && s.hp >= 90 && s.clean >= 90 && s.love >= 90 },// 남편 홉
+    
+    // --- [Priority 4: 범용/Fallback] ---
+// [중요] 특급전사를 여기로 내려서 "건강하지만 특징 없는" 경우를 받아줍니다.
+    { id: 'adult_soldier', priority: 1, condition: (s) => s.minHp >= 50 }, // 최후의 보루 (특급전사)
+
+    { id: 'adult_cry', priority: 4, condition: (s) => get1st(s) === 'g' && getStatGap(s) > 60 },// G 압도적
+    { id: 'adult_iampet', priority: 4, condition: (s) => s.love >= 200 },// 감성 MAX
   ]
 };
 
@@ -334,9 +363,19 @@ export const determineNextEvolution = (currentStage, stats, history) => {
   if (matchedRule) return matchedRule.id;
   
   // 기본값 (Fallback)
-  if (currentStage === 'child') return 'teen_run';
-  if (currentStage === 'teen') return 'college_street';
-  if (currentStage === 'college') return 'adult_cafe';
+  const getRandomFallback = (options) => {
+    return options[Math.floor(Math.random() * options.length)];
+  };
+
+  if (currentStage === 'child') {
+    return getRandomFallback(['teen_run', 'teen_blueberry']); 
+  }
+  if (currentStage === 'teen') {
+    return getRandomFallback(['college_butter', 'college_bambi']);
+  }
+  if (currentStage === 'college') {
+    return getRandomFallback(['adult_cafe', 'adult_dad']);
+  }
   
   return stats.characterId;
 };
