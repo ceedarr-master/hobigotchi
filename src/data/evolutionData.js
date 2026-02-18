@@ -296,7 +296,7 @@ export const EVOLUTION_RULES = {
     { id: 'adult_brooklyn', priority: 3, condition: (s) => get1st(s) === 'r' && getStatGap(s) > 20 }, // R 압도적
     { id: 'adult_cafe', priority: 1, condition: (s, h) => get4th(s) === 'b' && (h.items['f_coffee'] || 0) >= 8 }, // 지성 4위 + 아메리카노 8회
     { id: 'adult_crown', priority: 1, condition: (s, h) => (h.actions['a_kakao'] || 0) >= 10 }, // 멤버 카톡(talk) 15회
-    { id: 'adult_cry', priority: 4, condition: (s) => get1st(s) === 'g' && getStatGap(s) > 40 }, // G 압도적
+    { id: 'adult_cry', priority: 4, condition: (s) => get1st(s) === 'g' && getStatGap(s) > 120 }, // G 압도적
     { id: 'adult_dad', priority: 4, condition: (s) => get1st(s) === 'b' && get2nd(s) === 'y' }, // 1위 B, 2위 Y
     { id: 'adult_diva', priority: 1, condition: (s, h) => get1st(s) === 'y' && (h.actions['a_instagram'] || 0) >= 10 },// Y 1위 + sns 10회
     { id: 'adult_flower', priority: 3, condition: (s) => get1st(s) === 'g' && get2nd(s) === 'y' }, // 1위 G, 2위 Y
