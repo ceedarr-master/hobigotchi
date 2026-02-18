@@ -106,6 +106,8 @@ export const UI_TEXT = {
     action_hatch: "부화",
     hatch_born: "{name}이 태어났다!",
     evo_normal_grown: "{name}으로 자랐어!!",
+    speech_ready: "오메?",
+    speech_thanks: "감사하고 사랑합니다💜",
     //ending//
     wow: "우와!",
     action_next: "다음",
@@ -147,6 +149,8 @@ export const UI_TEXT = {
     action_hatch: "Hatch",
     hatch_born: "{name} is born!",
     evo_normal_grown: "Grew into {name}!!☆",
+    speech_ready: "huh?", // '오메?'의 뉘앙스를 살린 번역
+    speech_thanks: "Thank you and I love you💜",
     //ending//
     wow: "WOW!",
     action_next: "Next",
@@ -189,6 +193,9 @@ export const UI_TEXT = {
 
     hatch_born: "{name}が生まれました!",
     evo_normal_grown: "{name}に成長しました!!",
+
+    speech_ready: "あれ？",
+    speech_thanks: "感謝して愛しています💜",
     //ending//
     wow: "うわー！",
     action_next: "次へ",

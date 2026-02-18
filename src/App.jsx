@@ -128,10 +128,11 @@ function App() {
 
   const getSpeechText = () => {
     if (game.evolutionStep === 'process') return "";
-    if (game.evolutionStep === 'ready') return game.lang === 'jp' ? "あれ？" : "오메?";
+    if (game.evolutionStep === 'ready') return t('speech_ready');
     if (game.evolutionStep === 'completed') {
       const charData = CHARACTER_INFO[game.stats.characterId];
-      return (charData?.dialogue?.[game.lang]) || (game.lang === 'jp' ? "感謝して愛しています💜" : "감사하고 사랑합니다💜");
+      // 캐릭터 고유 대사가 없으면 기본 감사 인사 출력 (하드코딩 제거됨)
+      return (charData?.dialogue?.[game.lang]) || t('speech_thanks');
     }
     if (game.hatchStep === 'discovery') return t('egg_greet');
     if (game.hatchStep === 'hatching_start') return t('egg_help');
@@ -143,9 +144,11 @@ function App() {
     if (game.hatchStep === 'complete') {
       if (game.randomSpeech) return game.randomSpeech;
       const charData = CHARACTER_INFO[game.stats.characterId];
-      return (charData?.dialogue?.[game.lang]) || (game.lang === 'ko' ? "감사하고 사랑합니다💜" : "Thank you and I love you💜");
+      // 캐릭터 고유 대사가 없으면 기본 감사 인사 출력 (하드코딩 제거됨)
+      return (charData?.dialogue?.[game.lang]) || t('speech_thanks');
     }
-    return t('egg_greet'); 
+
+    return t('egg_greet');
   };
 
   return (
