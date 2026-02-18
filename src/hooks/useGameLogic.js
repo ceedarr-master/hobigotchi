@@ -353,7 +353,7 @@ export const useGameLogic = () => {
     const charName = (charInfo && charInfo.name && (charInfo.name[lang] || charInfo.name['ko'])) || "제이홉";
 
     // 해시태그에서 '#' 기호는 제외하고 쉼표로만 구분해야 API가 인식합니다.
-    const hashtags = "호비고치,Hobigotchi,ホビゴチ,jhope,제이홉";
+    const hashtags = "호비고치,ホビゴチ,Hobigotchi,jhope,제이홉";
     let shareText = "";
 
     // 멘트 설정
