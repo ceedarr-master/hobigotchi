@@ -278,7 +278,7 @@ export const EVOLUTION_RULES = {
     { id: 'teen_teengirl', priority: 2, condition: (s) => get1st(s) === 'g' && get2nd(s) === 'y' }, // G 1위 + Y 2위
     { id: 'teen_blueberry', priority: 2, condition: (s, h) => get1st(s) === 'y' && (h.actions['a_live']||0) + (h.actions['a_kakao']||0) + (h.actions['a_instagram']||0) + (h.actions['a_reply']||0) < 5 },
     { id: 'teen_cherry', priority: 2, condition: (s) => get1st(s) === 'y' },   
-    { id: 'teen_tear', priority: 3, condition: (s) => get1st(s) === 'g' && s.g >= 70 }, // 감성 풍부 (울보 기질)
+    { id: 'teen_tear', priority: 2, condition: (s) => get1st(s) === 'g' && s.g >= 70 }, // 감성 풍부 (울보 기질)
     { id: 'teen_acorn', priority: 2, condition: (s) => s.g >= 80 },
 
     // --- [Priority 3: 스탯 1위 / Fallback] ---    
