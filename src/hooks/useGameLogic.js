@@ -274,15 +274,23 @@ export const useGameLogic = () => {
   const handleItemClick = (item) => {
     if (isEvolutionPending) return;
 
-// [GA4 추가] 아이템 사용 이벤트 전송
+    // [GA4 이벤트 전송 유지]
     ReactGA.event("use_item", {
-      item_id: item.id,       // 예: f_snickers
-      item_name: item.ko,     // 예: 스니커즈 (알아보기 쉬움)
-      item_type: item.type,   // 예: food
-      item_group: item.group  // 예: snack
+      item_id: item.id,
+      item_name: item.ko,
+      item_type: item.type,
+      item_group: item.group
     });
 
-    setHistory(prev => ({ ...prev, items: { ...prev.items, [item.id]: (prev.items[item.id] || 0) + 1 } }));
+    // 🚨 [핵심 수정] Food와 Activity를 구분하여 History에 저장
+    setHistory(prev => {
+      if (item.type === 'food') {
+        return { ...prev, items: { ...prev.items, [item.id]: (prev.items[item.id] || 0) + 1 } };
+      } else {
+        return { ...prev, actions: { ...prev.actions, [item.id]: (prev.actions[item.id] || 0) + 1 } };
+      }
+    });
+
     setStats(prev => {
       const nextHp = Math.max(0, Math.min(100, prev.hp + item.hp));
       return {
@@ -306,7 +314,7 @@ export const useGameLogic = () => {
         return;
     }
 
-    // [GA4 추가] 기본 행동 사용 이벤트 전송
+    // [GA4 이벤트 전송 유지]
     ReactGA.event("use_item", {
       item_id: itemData.id,
       item_name: itemData.ko,
@@ -314,7 +322,11 @@ export const useGameLogic = () => {
       item_group: itemData.group
     });
 
-    setHistory(prev => ({ ...prev, actions: { ...prev.actions, [type]: (prev.actions[type] || 0) + 1 } }));
+    // 🚨 [핵심 수정] 'wash' 대신 'basic_wash'라는 정확한 itemId로 저장해야 진화 로직과 매칭됨
+    setHistory(prev => ({ 
+      ...prev, 
+      actions: { ...prev.actions, [itemId]: (prev.actions[itemId] || 0) + 1 } 
+    }));
     
     setStats(prev => {
       const changeHp = itemData.hp || 0;
@@ -347,6 +359,7 @@ export const useGameLogic = () => {
     setActiveAction(null);
   };
 
+  
  const handleShare = () => {
     const charId = stats.characterId;
     const charInfo = CHARACTER_INFO[charId]; // CHARACTER_INFO import 필요

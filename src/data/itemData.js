@@ -152,7 +152,7 @@ export const ITEMS = [
     {
       id: 'a_english', type: 'activity', group: 'self-development', icon: `${ICON_BASE}/book-open.svg`,
       ko: '영어공부', en: 'English study', jp: '英語勉強',
-      r: 2, g: -2, b: 15, y: 5, hp: -30, clean: -5, love: -35, unlock: 1
+      r: 2, g: -2, b: 20, y: 5, hp: -30, clean: -5, love: -35, unlock: 1
     },
     {
       id: 'a_book', type: 'activity', group: 'self-development', icon: `${ICON_BASE}/book-open.svg`,
