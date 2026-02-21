@@ -10,12 +10,12 @@ export const ITEMS = [
     {
       id: 'f_fries', type: 'food', group: 'snack', icon: `${ICON_BASE}/apple.svg`,
       ko: '감자튀김', en: 'French fries', jp: 'フライドポテト',
-      r: 0, g: 4, b: -2, y: 0, hp: 20, clean: -5, love: 0, unlock: 1
+      r: 0, g: 4, b: -2, y: 5, hp: 20, clean: -5, love: 0, unlock: 1
     },
     {
       id: 'f_banana', type: 'food', group: 'snack', icon: `${ICON_BASE}/apple.svg`,
       ko: '바나나', en: 'Banana', jp: 'バナナ',
-      r: 0, g: 2, b: 0, y: 0, hp: 15, clean: 0, love: 2, unlock: 1
+      r: 0, g: 2, b: 0, y: 5, hp: 15, clean: 0, love: 2, unlock: 1
     },
     {
       id: 'f_apple', type: 'food', group: 'snack', icon: `${ICON_BASE}/apple.svg`,
@@ -144,7 +144,7 @@ export const ITEMS = [
         {
       id: 'a_instagram', type: 'activity', group: 'communication', icon: `${ICON_BASE}/brand-instagram.svg`,
       ko: '인스스 올리기', en: 'Upload Instagram Story ', jp: 'ウィーバースコメント',
-      r: 5, g: 10, b: 5, y: 10, hp: -15, clean: -5, love: 8, unlock: 2
+      r: 5, g: 5, b: 5, y: 15, hp: -15, clean: -5, love: 8, unlock: 2
     },
   
     // --- ACTIVITY: SELF-DEVELOPMENT (자기계발) ---

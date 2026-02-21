@@ -321,12 +321,6 @@ export const useGameLogic = () => {
       item_type: itemData.type,
       item_group: itemData.group
     });
-
-    // 🚨 [핵심 수정] 'wash' 대신 'basic_wash'라는 정확한 itemId로 저장해야 진화 로직과 매칭됨
-    setHistory(prev => ({ 
-      ...prev, 
-      actions: { ...prev.actions, [itemId]: (prev.actions[itemId] || 0) + 1 } 
-    }));
     
     setStats(prev => {
       const changeHp = itemData.hp || 0;
