@@ -308,47 +308,45 @@ export const EVOLUTION_RULES = {
 
 // 3. College -> Adult
   to_adult: [
-    // --- [Priority 1: 구체적 행동/수집] (Soldier보다 위에 있어야 함) ---
-    // 1. 딸기/사과/커피 등 아이템 수집
-    { id: 'adult_strawberry', priority: 1, condition: (s, h) => (h.items['f_strawberry'] || 0) >= 8 }, // 딸기 8회
-    { id: 'adult_apple', priority: 1, condition: (s, h) => (h.items['f_apple'] || 0) >= 7 }, // 사과 7개
-    { id: 'adult_cafe', priority: 1, condition: (s, h) => get4th(s) === 'b' && (h.items['f_coffee'] || 0) >= 8 }, // 지성 4위 + 아메리카노 8회
-    // 2. 행동 반복 (운동, 청소, 쇼핑 등)
-    { id: 'adult_trainer', priority: 1, condition: (s, h) => (h.actions['a_abs'] || 0) >= 6 }, // 복근왕 (이제 Soldier한테 안 먹힘)
-    { id: 'adult_maid', priority: 1, condition: (s, h) => (h.actions['a_clean'] || 0) >= 8 }, // 청소 8회
-    { id: 'adult_hat', priority: 1, condition: (s, h) => (h.actions['a_shop'] || 0) >= 6 }, // 모자(쇼핑) 6회
-    { id: 'adult_mum', priority: 1,  condition: (s, h) => get1st(s) === 'b' && (h.actions['a_shop'] || 0) >= 3 && (h.actions['a_english'] || 0) >= 3 },// B 1위 + 쇼핑3 + 영어3
-    { id: 'adult_crown', priority: 1, condition: (s, h) => (h.actions['a_kakao'] || 0) >= 10 }, // 멤버 카톡(talk) 15회
-    { id: 'adult_diva', priority: 1, condition: (s, h) => get1st(s) === 'y' && (h.actions['a_instagram'] || 0) >= 6 },// Y 1위 + sns 6회
+    // --- [Priority 1: 구체적 행동/수집] (가장 우선) ---
+    { id: 'adult_strawberry', priority: 1, condition: (s, h) => (h.items['f_strawberry'] || 0) >= 8 },
+    { id: 'adult_apple', priority: 1, condition: (s, h) => (h.items['f_apple'] || 0) >= 7 },
+    { id: 'adult_cafe', priority: 1, condition: (s, h) => get4th(s) === 'b' && (h.items['f_coffee'] || 0) >= 8 },
+    { id: 'adult_trainer', priority: 1, condition: (s, h) => (h.actions['a_abs'] || 0) >= 6 },
+    { id: 'adult_maid', priority: 1, condition: (s, h) => (h.actions['a_clean'] || 0) >= 8 },
+    { id: 'adult_hat', priority: 1, condition: (s, h) => (h.actions['a_shop'] || 0) >= 6 },
+    { id: 'adult_mum', priority: 1,  condition: (s, h) => get1st(s) === 'b' && (h.actions['a_shop'] || 0) >= 3 && (h.actions['a_english'] || 0) >= 3 },
+    { id: 'adult_crown', priority: 1, condition: (s, h) => (h.actions['a_kakao'] || 0) >= 10 },
+    { id: 'adult_diva', priority: 1, condition: (s, h) => get1st(s) === 'y' && (h.actions['a_instagram'] || 0) >= 6 },
     { id: 'adult_rockstar', priority: 1, condition: (s, h) => ((h.actions['a_monitor']||0) + (h.actions['a_dance']||0) + (h.actions['a_vocal']||0) + (h.actions['a_idea']||0)) >= 12 },
-
-    // 상태 이상 (우선순위 높음)
     { id: 'adult_tired', priority: 1, condition: (s) => s.hp < 10 },
-    { id: 'adult_soldierprincess', priority: 1, condition: (s) => s.minHp >= 30 && get1st(s) === 'g' },// 특급전사공주 (hp기록 필요)
 
-    // --- [Priority 2: 구체적 스탯 조합] (승격됨!) ---
-    { id: 'adult_baseball', priority: 2, condition: (s) => get1st(s) === 'r' && get2nd(s) === 'g' },// 1위 R, 2위 G
-    { id: 'adult_wet', priority: 2, condition: (s) => get1st(s) === 'r' && get2nd(s) === 'y' },// 1위 R, 2위 Y
-    { id: 'adult_fragile', priority: 2, condition: (s) => get1st(s) === 'b' && get2nd(s) === 'r' },// 1위 B, 2위 R
-    { id: 'adult_flower', priority: 2, condition: (s) => get1st(s) === 'g' && get2nd(s) === 'y' },// 1위 G, 2위 Y
-    { id: 'adult_lvprincess', priority: 2, condition: (s) => get1st(s) === 'y' && getStatGap(s) > 20 },// Y 압도적
-    { id: 'adult_dad', priority: 2, condition: (s) => get1st(s) === 'b' && get2nd(s) === 'y' },// 1위 B, 2위 Y
+    // --- [Priority 2: 희귀 스탯 조합 (의도적인 육성)] ---
+    // [중요] 자연스럽게 만들어지는 G, Y 조합은 아래로 빼고, 만들기 어려운 조합들을 우선 보호합니다.
+    { id: 'adult_baseball', priority: 2, condition: (s) => get1st(s) === 'r' && get2nd(s) === 'g' },
+    { id: 'adult_wet', priority: 2, condition: (s) => get1st(s) === 'r' && get2nd(s) === 'y' },
+    { id: 'adult_fragile', priority: 2, condition: (s) => get1st(s) === 'b' && get2nd(s) === 'r' },
+    { id: 'adult_dad', priority: 2, condition: (s) => get1st(s) === 'b' && get2nd(s) === 'y' },
+    { id: 'adult_lvprince', priority: 2, condition: (s) => get1st(s) === 'y' && get2nd(s) === 'r' },
+    { id: 'adult_revolve', priority: 2, condition: () => Math.random() < 0.005 }, // 랜덤 0.5% 보장
 
-    { id: 'adult_revolve', priority: 2, condition: () => Math.random() < 0.005 },// [랜덤] 회귀 (0.5% 확률) - 우선순위 높음
-
-// --- [Priority 3: 스탯 격차 (Gap)] ---
-    // 구체적인 조합(P2)에 실패했지만, 특정 스탯이 압도적일 때
-    { id: 'adult_brooklyn', priority: 3, condition: (s) => get1st(s) === 'r' && getStatGap(s) > 20 },// R 압도적
-    { id: 'adult_lvprince', priority: 3, condition: (s) => get1st(s) === 'y' && get2nd(s) === 'r' },// 1위 Y, 2위 R
-    { id: 'adult_stage', priority: 3, condition: (s) => getStatGap(s) <= 15 && s.hp <= 60 && s.love >= 100 },// 균등스탯 + 체력60이하 + 감성MAX
-    { id: 'adult_groom', priority: 3, condition: (s) => getStatGap(s) <= 10 && s.hp >= 90 && s.clean >= 90 && s.love >= 90 },// 남편 홉
+    // --- [Priority 3: 자연스러운 결과물 & 갭 (블랙홀 강등)] ---
+    // 너무 흔하게 나오던 애들을 P3로 내려서, 위의 P2 캐릭터들을 잡아먹지 못하게 합니다.
+    { id: 'adult_flower', priority: 3, condition: (s) => get1st(s) === 'g' && get2nd(s) === 'y' }, // 평균 스탯 1위, 2위
+    { id: 'adult_soldierprincess', priority: 3, condition: (s) => s.minHp >= 30 && get1st(s) === 'g' }, // 건강한 감성형 (P1에서 P3로 강등)
+    
+    // [수정] Gap 20 -> 120 (38턴이면 평균 갭이 100을 넘습니다. 120은 넘겨야 진짜 편식입니다)
+    { id: 'adult_lvprincess', priority: 3, condition: (s) => get1st(s) === 'y' && getStatGap(s) > 120 }, 
+    { id: 'adult_brooklyn', priority: 3, condition: (s) => get1st(s) === 'r' && getStatGap(s) > 80 }, // R은 올리기 힘드니 80 유지
+    
+    // [수정] 갭 15 완화 (5나 10은 수학적으로 거의 불가능합니다)
+    { id: 'adult_stage', priority: 3, condition: (s) => getStatGap(s) <= 15 && s.hp <= 60 && s.love >= 100 },
+    { id: 'adult_groom', priority: 3, condition: (s) => getStatGap(s) <= 15 && s.hp >= 80 && s.clean >= 80 && s.love >= 80 },
     
     // --- [Priority 4: 범용/Fallback] ---
-// [중요] 특급전사를 여기로 내려서 "건강하지만 특징 없는" 경우를 받아줍니다.
-    { id: 'adult_soldier', priority: 4, condition: (s) => s.minHp >= 50 }, // 최후의 보루 (특급전사)
-
-    { id: 'adult_cry', priority: 4, condition: (s) => get1st(s) === 'g' && getStatGap(s) > 60 },// G 압도적
-    { id: 'adult_iampet', priority: 4, condition: (s) => s.love >= 200 },// 감성 MAX
+    { id: 'adult_soldier', priority: 4, condition: (s) => s.minHp >= 50 },
+    { id: 'adult_cry', priority: 4, condition: (s) => get1st(s) === 'g' && getStatGap(s) > 100 }, // G도 갭 100 상향
+    { id: 'adult_iampet', priority: 4, condition: (s) => s.love >= 180 }, // 감성 완화 (200은 너무 빡빡함)
   ]
 };
 
